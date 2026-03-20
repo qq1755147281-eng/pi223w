@@ -1,0 +1,1015 @@
+<html lang="zh-CN"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>圆周率贸易有限公司 - 区域数据</title>
+    <!-- Tailwind CSS v3 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- AOS 动画库 -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e40af', // 商务蓝
+                        secondary: '#f97316', // 突出橙色
+                        light: '#f8fafc',
+                        dark: '#1e293b'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'card': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                        'button': '0 2px 4px rgba(0, 0, 0, 0.1)',
+                        'button-hover': '0 4px 8px rgba(0, 0, 0, 0.15)'
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            }
+            .transition-all-300 {
+                transition: all 300ms ease-in-out;
+            }
+            .card-hover {
+                @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+            }
+            .district-button {
+                @apply relative flex flex-col items-center justify-center p-4 bg-white rounded-lg shadow-button border-2 border-transparent transition-all-300;
+            }
+            .district-button:hover {
+                @apply shadow-button-hover border-primary cursor-pointer;
+            }
+            .district-button.active {
+                @apply border-secondary bg-blue-50;
+            }
+            .district-icon {
+                @apply text-primary text-xl mb-2;
+            }
+            .district-name {
+                @apply font-medium text-dark text-center;
+            }
+            .district-count {
+                @apply text-xs text-gray-500 mt-1;
+            }
+            .mission-button-gradient {
+                background: linear-gradient(90deg, rgba(220,38,38,1) 0%, rgba(34,197,94,1) 50%, rgba(59,130,246,1) 100%);
+            }
+            .text-glow {
+                text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #00ff00, 0 0 20px #00ff00, 0 0 25px #00ff00, 0 0 30px #00ff00, 0 0 35px #00ff00;
+                animation: glow 1.5s ease-in-out infinite alternate;
+            }
+            @keyframes glow {
+                from {
+                    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #00ff00, 0 0 20px #00ff00, 0 0 25px #00ff00, 0 0 30px #00ff00, 0 0 35px #00ff00;
+                }
+                to {
+                    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #39ff14, 0 0 40px #39ff14, 0 0 50px #39ff14, 0 0 60px #39ff14, 0 0 70px #39ff14;
+                }
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- 顶部导航栏 -->
+    <header class="bg-primary text-white shadow-md">
+        <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center">
+                <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center mr-3">
+                    <span class="text-primary font-bold text-xl">π</span>
+                </div>
+                <h1 class="text-xl font-bold" style="color: rgb(240, 240, 53);">山西太原派链圆周率商会</h1>
+            </div>
+            <button class="p-2 rounded-full hover:bg-blue-700 transition-colors">
+                <i class="fa fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- 主要内容区域 -->
+    <main class="container mx-auto px-4 py-6">
+        <!-- 页面标题 -->
+        <div class="mb-6" data-aos="fade-up" data-aos-duration="600">
+            <h2 class="text-2xl font-bold text-dark mb-2">太原市派友区域数据</h2>
+            <p class="text-gray-600">查看各区域人员分布及统计数据</p>
+        </div>
+
+        <!-- 数据统计卡片 -->
+        <div class="grid grid-cols-2 gap-4 mb-8">
+            <!-- 太原市统计数据卡片 -->
+            <div class="bg-white rounded-xl shadow-card p-4 card-hover cursor-pointer" data-aos="fade-up" data-aos-duration="600" data-aos-delay="100" onclick="showStatisticsModal()">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-base font-semibold text-dark">太原市统计派友数据</h3>
+                    <span class="text-xs px-2 py-0.5 bg-blue-100 text-primary rounded-full">总体</span>
+                </div>
+                <div class="flex items-end">
+                    <p class="text-2xl font-bold text-primary">2,856</p>
+                    <p class="text-xs text-gray-500 ml-2 mb-0.5">人</p>
+                </div>
+                <p class="text-xs text-gray-500 mt-1">总销售额</p>
+                <div class="mt-3 flex items-center text-xs">
+                    <span class="text-green-500 flex items-center">
+                        <i class="fa fa-arrow-up mr-1"></i> 12.5%
+                    </span>
+                    <span class="text-gray-500 ml-2">较上月</span>
+                </div>
+            </div>
+
+            <!-- 架构人员数量卡片 -->
+            <div class="bg-white rounded-xl shadow-card p-4 card-hover cursor-pointer" data-aos="fade-up" data-aos-duration="600" data-aos-delay="200" onclick="showMembershipModal()">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-base font-semibold text-dark">派架构内部人员数量</h3>
+                    <span class="text-xs px-2 py-0.5 bg-orange-100 text-secondary rounded-full">人员</span>
+                </div>
+                <div class="flex items-end">
+                    <p class="text-2xl font-bold text-secondary">342</p>
+                    <p class="text-xs text-gray-500 ml-2 mb-0.5">人</p>
+                </div>
+                <p class="text-xs text-gray-500 mt-1">在职人员</p>
+                <div class="mt-3 flex items-center text-xs">
+                    <span class="text-green-500 flex items-center">
+                        <i class="fa fa-arrow-up mr-1"></i> 3.2%
+                    </span>
+                    <span class="text-gray-500 ml-2">较上季度</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 派商会使命数据按钮 -->
+        <div class="mb-6" data-aos="fade-up" data-aos-duration="600" data-aos-delay="250">
+            <button id="missionButton" class="w-full py-3 rounded-lg font-semibold text-white mission-button-gradient relative overflow-hidden group" onclick="showMissionModal()">
+                <span class="relative z-10 text-glow" style="color: rgb(5, 3, 3); font-size: 20px;">派商会成功数据</span>
+            </button>
+        </div>
+
+        <!-- 负责人信息按钮区域 -->
+        <div class="mb-6" data-aos="fade-up" data-aos-duration="600" data-aos-delay="300">
+            <h3 class="text-lg font-semibold text-dark mb-3">负责人信息</h3>
+            <div class="grid grid-cols-1 gap-2">
+                <!-- 山西省会长信息 -->
+                <div class="bg-white rounded-lg shadow-button p-3 flex items-center">
+                    <div class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 mr-3">
+                        <i class="fa fa-user-circle text-primary text-xl"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center">
+                            <span class="bg-primary text-white text-xs px-2 py-0.5 rounded-full mr-2">山西省会长</span>
+                            <h4 class="font-medium text-dark">张三</h4>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">年龄: 45 | 电话: 138****1234</p>
+                        <p class="text-xs text-gray-500">住址: 迎泽区</p>
+                    </div>
+                </div>
+                
+                <!-- 山西省副会长信息 -->
+                <div class="bg-white rounded-lg shadow-button p-3 flex items-center">
+                    <div class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 mr-3">
+                        <i class="fa fa-user-circle text-primary text-xl"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center">
+                            <span class="bg-primary text-white text-xs px-2 py-0.5 rounded-full mr-2">山西省副会长</span>
+                            <h4 class="font-medium text-dark">李四</h4>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">年龄: 42 | 电话: 139****5678</p>
+                        <p class="text-xs text-gray-500">住址: 杏花岭区</p>
+                    </div>
+                </div>
+                
+                <!-- 太原市会长信息 -->
+                <div class="bg-white rounded-lg shadow-button p-3 flex items-center">
+                    <div class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 mr-3">
+                        <i class="fa fa-user-circle text-primary text-xl"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center">
+                            <span class="bg-secondary text-white text-xs px-2 py-0.5 rounded-full mr-2">太原市会长</span>
+                            <h4 class="font-medium text-dark">王五</h4>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">年龄: 38 | 电话: 137****9012</p>
+                        <p class="text-xs text-gray-500">住址: 小店区</p>
+                    </div>
+                </div>
+                
+                <!-- 太原市副会长信息 -->
+                <div class="bg-white rounded-lg shadow-button p-3 flex items-center">
+                    <div class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 mr-3">
+                        <i class="fa fa-user-circle text-primary text-xl"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center">
+                            <span class="bg-secondary text-white text-xs px-2 py-0.5 rounded-full mr-2">太原市副会长</span>
+                            <h4 class="font-medium text-dark">赵六</h4>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">年龄: 36 | 电话: 136****3456</p>
+                        <p class="text-xs text-gray-500">住址: 万柏林区</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 区域选择标题 -->
+        <div class="mb-4" data-aos="fade-up" data-aos-duration="600" data-aos-delay="300">
+            <h3 class="text-lg font-semibold text-dark">区域选择</h3>
+            <p class="text-sm text-gray-500">点击区域查看详细信息</p>
+        </div>
+
+        <!-- 区域按钮网格 - 2x5布局 -->
+        <div class="grid grid-cols-2 gap-4" data-aos="fade-up" data-aos-duration="600" data-aos-delay="400">
+            <div class="district-button" data-district="尖草坪区" onclick="selectDistrict(this)">
+                <i class="fa fa-building district-icon"></i>
+                <span class="district-name">尖草坪区</span>
+                <span class="district-count">39人</span>
+            </div>
+            <div class="district-button" data-district="迎泽区" onclick="selectDistrict(this)">
+                <i class="fa fa-building district-icon"></i>
+                <span class="district-name">迎泽区</span>
+                <span class="district-count">56人</span>
+            </div>
+            <div class="district-button" data-district="万柏林区" onclick="selectDistrict(this)">
+                <i class="fa fa-building district-icon"></i>
+                <span class="district-name">万柏林区</span>
+                <span class="district-count">45人</span>
+            </div>
+            <div class="district-button" data-district="杏花岭区" onclick="selectDistrict(this)">
+                <i class="fa fa-building district-icon"></i>
+                <span class="district-name">杏花岭区</span>
+                <span class="district-count">48人</span>
+            </div>
+            <div class="district-button" data-district="小店区" onclick="selectDistrict(this)">
+                <i class="fa fa-building district-icon"></i>
+                <span class="district-name">小店区</span>
+                <span class="district-count">62人</span>
+            </div>
+            <div class="district-button" data-district="晋源区" onclick="selectDistrict(this)">
+                <i class="fa fa-building district-icon"></i>
+                <span class="district-name">晋源区</span>
+                <span class="district-count">31人</span>
+            </div>
+            <div class="district-button" data-district="清徐县" onclick="selectDistrict(this)">
+                <i class="fa fa-building district-icon"></i>
+                <span class="district-name">清徐县</span>
+                <span class="district-count">28人</span>
+            </div>
+            <div class="district-button" data-district="阳曲县" onclick="selectDistrict(this)">
+                <i class="fa fa-building district-icon"></i>
+                <span class="district-name">阳曲县</span>
+                <span class="district-count">22人</span>
+            </div>
+            <div class="district-button" data-district="娄烦县" onclick="selectDistrict(this)">
+                <i class="fa fa-building district-icon"></i>
+                <span class="district-name">娄烦县</span>
+                <span class="district-count">18人</span>
+            </div>
+            <div class="district-button" data-district="古交市" onclick="selectDistrict(this)">
+                <i class="fa fa-building district-icon"></i>
+                <span class="district-name">古交市</span>
+                <span class="district-count">21人</span>
+            </div>
+        </div>
+
+        <!-- 区域详细信息卡片 (默认隐藏) -->
+        <div id="districtDetails" class="mt-8 bg-white rounded-xl shadow-card p-5 hidden" data-aos="fade-up" data-aos-duration="600">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-dark flex items-center">
+                    <span id="selectedDistrictName">迎泽区</span>
+                    <span class="text-xs px-2 py-1 bg-blue-100 text-primary rounded-full ml-2">区域详情</span>
+                </h3>
+                <button class="text-gray-400 hover:text-gray-600" onclick="hideDistrictDetails()">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                    <p class="text-sm text-gray-500">销售额</p>
+                    <p class="text-xl font-bold text-primary"><span id="districtSales">428</span> 万元</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500">人员数量</p>
+                    <p class="text-xl font-bold text-secondary"><span id="districtStaff">56</span> 人</p>
+                </div>
+            </div>
+            
+            <div class="mb-4">
+                <p class="text-sm text-gray-500 mb-2">销售趋势</p>
+                <div class="h-32 bg-gray-100 rounded-lg flex items-end justify-around p-2">
+                    <div class="flex flex-col items-center">
+                        <div class="w-6 bg-blue-400 rounded-t-md" style="height: 40%"></div>
+                        <span class="text-xs text-gray-500 mt-1">1月</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-6 bg-blue-400 rounded-t-md" style="height: 60%"></div>
+                        <span class="text-xs text-gray-500 mt-1">2月</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-6 bg-blue-400 rounded-t-md" style="height: 50%"></div>
+                        <span class="text-xs text-gray-500 mt-1">3月</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-6 bg-blue-500 rounded-t-md" style="height: 80%"></div>
+                        <span class="text-xs text-gray-500 mt-1">4月</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-6 bg-blue-600 rounded-t-md" style="height: 100%"></div>
+                        <span class="text-xs text-gray-500 mt-1">5月</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex justify-between">
+                <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
+                    <i class="fa fa-bar-chart mr-1"></i> 查看报表
+                </button>
+                <button class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors">
+                    <i class="fa fa-users mr-1"></i> 人员详情
+                </button>
+            </div>
+        </div>
+    </main>
+
+
+
+    <script>
+        // 初始化AOS动画库
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init();
+        });
+
+        // 创建音频上下文和音效
+        let audioContext;
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        // 播放点击音效
+        function playClickSound() {
+            initAudio();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            oscillator.frequency.setValueAtTime(880, audioContext.currentTime); // 高音调
+            oscillator.frequency.exponentialRampToValueAtTime(440, audioContext.currentTime + 0.1); // 下降到低音调
+
+            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.1);
+        }
+
+        // 为所有按钮添加音效
+        document.addEventListener('click', function(e) {
+            if (e.target.tagName === 'BUTTON' || e.target.closest('.cursor-pointer') || e.target.closest('.district-button')) {
+                playClickSound();
+            }
+        });
+        
+        // 显示统计数据模态框
+        function showStatisticsModal() {
+            // 创建模态框
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            modal.id = 'statisticsModal';
+            
+            // 模态框内容
+            modal.innerHTML = `
+                <div class="bg-white rounded-xl shadow-lg w-11/12 max-w-md max-h-[90vh] overflow-y-auto relative">
+                    <!-- 右上角关闭按钮 -->
+                    <button onclick="closeStatisticsModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200 hover:text-gray-700 z-10">
+                        <i class="fa fa-times"></i>
+                    </button>
+                    
+                    <div class="p-5 border-b">
+                        <h3 class="text-lg font-semibold text-dark text-center">太原市统计数据</h3>
+                    </div>
+                    <div class="p-5">
+                        <div class="space-y-4">
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <h4 class="font-medium text-dark mb-2">第一统计</h4>
+                                <p class="text-sm">八绿九黄人员：<span class="font-semibold">1,234</span> 人</p>
+                            </div>
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <h4 class="font-medium text-dark mb-2">第二统计</h4>
+                                <p class="text-sm">九绿人员：<span class="font-semibold">567</span> 人</p>
+                            </div>
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <h4 class="font-medium text-dark mb-2">第三统计</h4>
+                                <p class="text-sm">待统计人员：<span class="font-semibold">890</span> 人</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-5 border-t bg-gray-50 rounded-b-xl">
+                        <button onclick="closeStatisticsModal()" class="w-full py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors">
+                            关闭
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // 添加到页面
+            document.body.appendChild(modal);
+            document.body.style.overflow = 'hidden'; // 防止背景滚动
+        }
+        
+        // 关闭统计数据模态框
+        function closeStatisticsModal() {
+            const modal = document.getElementById('statisticsModal');
+            if (modal) {
+                modal.remove();
+                document.body.style.overflow = ''; // 恢复背景滚动
+            }
+        }
+        
+        // 区域招募状态数据
+        const districtRecruitmentStatus = {
+            '尖草坪区': { status: 'full', president: 1, vicePresident: 2, staff: 5 },
+            '迎泽区': { status: 'full', president: 1, vicePresident: 2, staff: 5 },
+            '万柏林区': { status: 'full', president: 1, vicePresident: 2, staff: 5 },
+            '杏花岭区': { status: 'full', president: 1, vicePresident: 2, staff: 5 },
+            '小店区': { status: 'full', president: 1, vicePresident: 2, staff: 5 },
+            '晋源区': { status: 'full', president: 1, vicePresident: 2, staff: 5 },
+            '清徐县': { status: 'full', president: 1, vicePresident: 2, staff: 5 },
+            '阳曲县': { status: 'recruiting', president: 0, vicePresident: 0, staff: 0 },
+            '娄烦县': { status: 'recruiting', president: 0, vicePresident: 0, staff: 0 },
+            '古交市': { status: 'recruiting', president: 0, vicePresident: 0, staff: 0 }
+        };
+        
+        // 显示成员资格模态框
+        function showMembershipModal() {
+            // 创建模态框
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            modal.id = 'membershipModal';
+            
+            // 构建区域状态HTML
+            let districtsHtml = Object.entries(districtRecruitmentStatus).map(([district, data]) => {
+                const statusText = data.status === 'full' ? '已满员' : '正在招募';
+                const statusClass = data.status === 'full' ? 'text-green-500' : 'text-red-500';
+                
+                return `
+                    <div class="bg-white rounded-lg shadow-button p-3 mb-3">
+                        <div class="flex justify-between items-center mb-2">
+                            <h4 class="font-medium text-dark">${district}</h4>
+                            <span class="${statusClass} text-sm font-medium">${statusText}</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-sm">
+                            <div>
+                                <span class="text-gray-500">会长:</span>
+                                <span>${data.president}人</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500">副会长:</span>
+                                <span>${data.vicePresident}人</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500">架构人员:</span>
+                                <span>${data.staff}人</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500">招募状态:</span>
+                                <span class="${statusClass}">${data.status === 'full' ? '已满员' : '正在招募'}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            // 计算总数
+            const totalPresident = Object.values(districtRecruitmentStatus).reduce((sum, data) => sum + data.president, 0);
+            const totalVicePresident = Object.values(districtRecruitmentStatus).reduce((sum, data) => sum + data.vicePresident, 0);
+            const totalStaff = Object.values(districtRecruitmentStatus).reduce((sum, data) => sum + data.staff, 0);
+            
+            // 模态框内容
+            modal.innerHTML = `
+                <div class="bg-white rounded-xl shadow-lg w-11/12 max-w-md max-h-[90vh] overflow-y-auto relative">
+                    <!-- 右上角关闭按钮 -->
+                    <button onclick="closeMembershipModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200 hover:text-gray-700 z-10">
+                        <i class="fa fa-times"></i>
+                    </button>
+                    
+                    <div class="p-5 border-b">
+                        <h3 class="text-lg font-semibold text-dark text-center">太原市绘本</h3>
+                    </div>
+                    <div class="p-5">
+                        <!-- 总体统计 -->
+                        <div class="bg-gray-50 rounded-lg p-4 mb-4">
+                            <h4 class="font-medium text-dark mb-2">太原市各区域人员统计</h4>
+                            <div class="grid grid-cols-2 gap-2 text-sm">
+                                <div>
+                                    <span class="text-gray-500">会长总数:</span>
+                                    <span>${totalPresident}人</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-500">副会长总数:</span>
+                                    <span>${totalVicePresident}人</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-500">架构人员总数:</span>
+                                    <span>${totalStaff}人</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 各区域状态 -->
+                        <h4 class="font-medium text-dark mb-3">各区域招募状态</h4>
+                        <div class="space-y-3">
+                            ${districtsHtml}
+                        </div>
+                    </div>
+                    <div class="p-5 border-t bg-gray-50 rounded-b-xl">
+                        <button onclick="closeMembershipModal()" class="w-full py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors">
+                            关闭
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // 添加到页面
+            document.body.appendChild(modal);
+            document.body.style.overflow = 'hidden'; // 防止背景滚动
+        }
+        
+        // 关闭成员资格模态框
+        function closeMembershipModal() {
+            const modal = document.getElementById('membershipModal');
+            if (modal) {
+                modal.remove();
+                document.body.style.overflow = ''; // 恢复背景滚动
+            }
+        }
+
+        // 区域数据
+        const districtData = {
+            '尖草坪区': { sales: 312, staff: 39 },
+            '迎泽区': { sales: 428, staff: 56 },
+            '万柏林区': { sales: 365, staff: 45 },
+            '杏花岭区': { sales: 386, staff: 48 },
+            '小店区': { sales: 492, staff: 62 },
+            '晋源区': { sales: 278, staff: 31 },
+            '清徐县': { sales: 245, staff: 28 },
+            '阳曲县': { sales: 198, staff: 22 },
+            '娄烦县': { sales: 165, staff: 18 },
+            '古交市': { sales: 185, staff: 21 }
+        };
+        
+        // 尖草坪区人员数据
+        const jiancaopingStaff = {
+            leaders: [
+                { position: '山西太原尖草坪区会长', name: '李秀珍', age: 46, phone: '19003434431', address: '山西省太原市小店区在饭店' },
+                { position: '山西省太原市尖草坪区副会长', name: '刘瑞华', age: '未登记', phone: '未发布', address: '未发布登记' },
+                { position: '山西太原尖草坪区副会长', name: '魏国炳', age: 31, phone: '15536455536', address: '山西省太原市尖草坪区优山美郡' }
+            ],
+            groups: [
+                { groupName: '统计组', members: [
+                    { position: '山西太原尖草坪区统计组长', name: '丁雪', age: 31, phone: '15513828862', address: '山西省太原市尖草坪区' },
+                    { position: '山西太原尖草坪区统计', name: '王维卿', age: 51, phone: '19243442346', address: '山西省太原市尖草坪区' }
+                ]},
+                { groupName: '财务组', members: [
+                    { position: '山西太原尖草坪区财务组', name: '王诚义', age: 54, phone: '13513605114', address: '山西省太原市尖草坪区' }
+                ]},
+                { groupName: '初审组', members: [
+                    { position: '山西省太原市草坪区初审组组长', name: '刘海平', age: 43, phone: '18603598321', address: '山西省太原市万柏林区长风停车场' }
+                ]},
+                { groupName: '安保组', members: [
+                    { position: '山西太原尖草坪区安保组长', name: '王旭平', age: 43, phone: '18734862778', address: '山西省太原市尖草坪区' }
+                ]}
+            ]
+        };
+        
+        // 负责人详细信息
+        const personDetails = {
+            '山西省会长': {
+                name: '张三',
+                age: 45,
+                phone: '138****1234',
+                address: '太原市迎泽区',
+                email: 'zhangsan@example.com',
+                department: '山西省总会',
+                position: '会长',
+                joinDate: '2015-03-15',
+                achievements: ['2023年度销售冠军', '优秀团队领导者', '创新营销方案奖']
+            },
+            '山西省副会长': {
+                name: '李四',
+                age: 42,
+                phone: '139****5678',
+                address: '太原市杏花岭区',
+                email: 'lisi@example.com',
+                department: '山西省总会',
+                position: '副会长',
+                joinDate: '2016-07-22',
+                achievements: ['最佳团队协作奖', '客户满意度之星']
+            },
+            '太原市会长': {
+                name: '王五',
+                age: 38,
+                phone: '137****9012',
+                address: '太原市小店区',
+                email: 'wangwu@example.com',
+                department: '太原市分会',
+                position: '会长',
+                joinDate: '2018-01-10',
+                achievements: ['太原市销售增长贡献奖', '优秀管理者']
+            },
+            '太原市副会长': {
+                name: '赵六',
+                age: 36,
+                phone: '136****3456',
+                address: '太原市万柏林区',
+                email: 'zhaoliu@example.com',
+                department: '太原市分会',
+                position: '副会长',
+                joinDate: '2019-05-08',
+                achievements: ['新人培养计划发起人', '客户关系维护标兵']
+            }
+        };
+
+        // 选择区域
+        function selectDistrict(element) {
+            // 移除所有区域的选中状态
+            document.querySelectorAll('.district-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // 添加当前区域的选中状态
+            element.classList.add('active');
+            
+            // 获取选中的区域名称
+            const districtName = element.getAttribute('data-district');
+            
+            // 检查是否是尖草坪区
+            if (districtName === '尖草坪区') {
+                // 显示尖草坪区详细人员信息
+                showJiancaopingDetail();
+            } else {
+                // 显示未开发提示
+                showNotDevelopedAlert(districtName);
+            }
+        }
+
+        // 显示尖草坪区详细人员信息
+        function showJiancaopingDetail() {
+            // 创建模态框
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            modal.id = 'districtDetailModal';
+            
+            // 构建领导信息HTML
+            let leadersHtml = jiancaopingStaff.leaders.map(leader => `
+                <div class="bg-white rounded-lg shadow-button p-3 mb-3">
+                    <h4 class="font-medium text-primary mb-1">${leader.position}</h4>
+                    <p class="text-sm">姓名: ${leader.name}</p>
+                    <p class="text-sm">年龄: ${leader.age}</p>
+                    <p class="text-sm">电话: ${leader.phone}</p>
+                    <div class="mt-2 flex space-x-2">
+                        <button class="bg-green-500 text-white text-xs px-2 py-1 rounded flex items-center" onclick="copyPhoneNumber('${leader.phone}')">
+                            <i class="fa fa-copy mr-1"></i> 复制
+                        </button>
+                        <button class="bg-green-500 text-white text-xs px-2 py-1 rounded flex items-center" onclick="callPhoneNumber('${leader.phone}')">
+                            <i class="fa fa-phone mr-1"></i> 拨打
+                        </button>
+                    </div>
+                    <p class="text-sm">住址: ${leader.address}</p>
+                </div>
+            `).join('');
+            
+            // 构建各组人员HTML
+            let groupsHtml = jiancaopingStaff.groups.map(group => `
+                <div class="mt-4">
+                    <h4 class="font-medium text-dark mb-2">${group.groupName}</h4>
+                    ${group.members.map(member => `
+                        <div class="bg-white rounded-lg shadow-button p-3 mb-2">
+                            <p class="text-sm font-medium">${member.position}: ${member.name}</p>
+                            <p class="text-xs text-gray-500">年龄: ${member.age} | 电话: ${member.phone}</p>
+                            <div class="mt-2 flex space-x-2">
+                                <button class="bg-green-500 text-white text-xs px-2 py-1 rounded flex items-center" onclick="copyPhoneNumber('${member.phone}')">
+                                    <i class="fa fa-copy mr-1"></i> 复制
+                                </button>
+                                <button class="bg-green-500 text-white text-xs px-2 py-1 rounded flex items-center" onclick="callPhoneNumber('${member.phone}')">
+                                    <i class="fa fa-phone mr-1"></i> 拨打
+                                </button>
+                            </div>
+                            <p class="text-xs text-gray-500">住址: ${member.address}</p>
+                        </div>
+                    `).join('')}
+                </div>
+            `).join('');
+            
+            // 模态框内容
+            modal.innerHTML = `
+                <div class="bg-white rounded-xl shadow-lg w-11/12 max-w-md max-h-[90vh] overflow-y-auto relative">
+                    <!-- 右上角关闭按钮 -->
+                    <button onclick="closeDistrictDetailModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200 hover:text-gray-700 z-10">
+                        <i class="fa fa-times"></i>
+                    </button>
+                    
+                    <div class="p-5 border-b">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-semibold text-dark">太原市尖草坪区人员信息</h3>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h4 class="font-medium text-dark mb-3">区域领导</h4>
+                        ${leadersHtml}
+                        
+                        <h4 class="font-medium text-dark mb-3">太原市尖草坪区统计组人员</h4>
+                        ${groupsHtml}
+                    </div>
+                    <div class="p-5 border-t bg-gray-50 rounded-b-xl">
+                        <button onclick="closeDistrictDetailModal()" class="w-full py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors">
+                            关闭
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // 添加到页面
+            document.body.appendChild(modal);
+            document.body.style.overflow = 'hidden'; // 防止背景滚动
+        }
+        
+        // 显示未开发提示
+        function showNotDevelopedAlert(districtName) {
+            // 创建提示框
+            const alert = document.createElement('div');
+            alert.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            alert.id = 'notDevelopedAlert';
+            
+            // 提示框内容
+            alert.innerHTML = `
+                <div class="bg-white rounded-xl shadow-lg w-10/12 max-w-sm p-5">
+                    <div class="text-center mb-4">
+                        <i class="fa fa-info-circle text-primary text-4xl mb-3"></i>
+                        <h3 class="text-lg font-semibold text-dark">功能开发中</h3>
+                    </div>
+                    <p class="text-gray-600 text-center mb-5">
+                        本软件专门为尖草坪区服务，其他社区暂未开发。
+                    </p>
+                    <button onclick="closeNotDevelopedAlert()" class="w-full py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors">
+                        我知道了
+                    </button>
+                </div>
+            `;
+            
+            // 添加到页面
+            document.body.appendChild(alert);
+            document.body.style.overflow = 'hidden'; // 防止背景滚动
+        }
+        
+        // 关闭区域详情模态框
+        function closeDistrictDetailModal() {
+            const modal = document.getElementById('districtDetailModal');
+            if (modal) {
+                modal.remove();
+                document.body.style.overflow = ''; // 恢复背景滚动
+                
+                // 移除所有区域的选中状态
+                document.querySelectorAll('.district-button').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+            }
+        }
+        
+        // 关闭未开发提示框
+        function closeNotDevelopedAlert() {
+            const alert = document.getElementById('notDevelopedAlert');
+            if (alert) {
+                alert.remove();
+                document.body.style.overflow = ''; // 恢复背景滚动
+                
+                // 移除所有区域的选中状态
+                document.querySelectorAll('.district-button').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+            }
+        }
+
+        // 隐藏区域详情
+        function hideDistrictDetails() {
+            document.getElementById('districtDetails').classList.add('hidden');
+            
+            // 移除所有区域的选中状态
+            document.querySelectorAll('.district-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+        }
+        
+        // 显示负责人详细信息
+        function showPersonDetail(position) {
+            const person = personDetails[position];
+            
+            if (person) {
+                // 创建模态框
+                const modal = document.createElement('div');
+                modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+                modal.id = 'personDetailModal';
+                
+                // 模态框内容
+                modal.innerHTML = `
+                    <div class="bg-white rounded-xl shadow-lg w-11/12 max-w-md max-h-[90vh] overflow-y-auto">
+                        <div class="p-5 border-b">
+                            <div class="flex justify-between items-center">
+                                <h3 class="text-lg font-semibold text-dark">${person.name} - ${position}</h3>
+                                <button onclick="closePersonDetailModal()" class="text-gray-400 hover:text-gray-600">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-5">
+                            <div class="flex justify-center mb-4">
+                                <div class="w-24 h-24 rounded-full bg-blue-100 flex items-center justify-center overflow-hidden">
+                                    <i class="fa fa-user-circle text-primary text-5xl"></i>
+                                </div>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">姓名:</span>
+                                    <span class="font-medium">${person.name}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">年龄:</span>
+                                    <span>${person.age}岁</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">电话:</span>
+                                    <span>${person.phone}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">邮箱:</span>
+                                    <span>${person.email}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">住址:</span>
+                                    <span>${person.address}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">部门:</span>
+                                    <span>${person.department}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">入职日期:</span>
+                                    <span>${person.joinDate}</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-500 block mb-1">主要成就:</span>
+                                    <ul class="list-disc list-inside text-sm">
+                                        ${person.achievements.map(achievement => `<li>${achievement}</li>`).join('')}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-5 border-t bg-gray-50 rounded-b-xl">
+                            <button onclick="closePersonDetailModal()" class="w-full py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                关闭
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                // 添加到页面
+                document.body.appendChild(modal);
+                document.body.style.overflow = 'hidden'; // 防止背景滚动
+            }
+        }
+        
+        // 关闭负责人详细信息模态框
+        function closePersonDetailModal() {
+            const modal = document.getElementById('personDetailModal');
+            if (modal) {
+                modal.remove();
+                document.body.style.overflow = ''; // 恢复背景滚动
+            }
+        }
+
+        // 复制电话号码
+        function copyPhoneNumber(phone) {
+            playClickSound(); // 播放音效
+            // 移除可能的占位符，如 ****
+            const cleanPhone = phone.replace(/\*/g, '');
+            if (cleanPhone === '未发布') {
+                alert('电话号码未发布，无法复制。');
+                return;
+            }
+            // 复制两次手机号码
+            const textToCopy = cleanPhone + '\n' + cleanPhone;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                alert('电话号码已复制到剪贴板。');
+            }).catch(err => {
+                console.error('无法复制电话号码: ', err);
+                alert('复制失败，请手动复制。');
+            });
+        }
+
+        // 拨打电话号码
+        function callPhoneNumber(phone) {
+            playClickSound(); // 播放音效
+            // 移除可能的占位符，如 ****
+            const cleanPhone = phone.replace(/\*/g, '');
+            if (cleanPhone === '未发布') {
+                alert('电话号码未发布，无法拨打。');
+                return;
+            }
+            // 直接跳转到拨号界面
+            window.location.href = `tel:${cleanPhone}`;
+        }
+
+        // 显示使命数据模态框
+        function showMissionModal() {
+            // 创建模态框
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black flex items-center justify-center z-50';
+            modal.id = 'missionModal';
+            
+            // 模态框内容
+            modal.innerHTML = `
+                <div class="bg-black bg-opacity-90 rounded-xl shadow-lg w-11/12 max-w-md max-h-[90vh] overflow-y-auto relative border border-gray-800">
+                    <!-- 右上角关闭按钮 -->
+                    <button onclick="closeMissionModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-gray-700 hover:text-white z-10">
+                        <i class="fa fa-times"></i>
+                    </button>
+                    
+                    <div class="p-5 border-b border-gray-800">
+                        <h3 class="text-lg font-semibold text-white text-center">派商会使命数据进度</h3>
+                    </div>
+                    <div class="p-5">
+                        <div class="space-y-6">
+                            <div class="bg-gray-900 rounded-lg p-4">
+                                <h4 class="font-medium text-white mb-3">1. 山西省架构拿到结果</h4>
+                                <div class="w-full bg-gray-800 rounded-full h-2.5">
+                                    <div class="bg-blue-500 h-2.5 rounded-full" style="width: 0%"></div>
+                                </div>
+                                <div class="flex justify-between mt-2">
+                                    <span class="text-xs text-gray-400">进度</span>
+                                    <span class="text-xs text-blue-400">0%</span>
+                                </div>
+                            </div>
+                            <div class="bg-gray-900 rounded-lg p-4">
+                                <h4 class="font-medium text-white mb-3">2. 山西省太原市架构拿到结果进度表</h4>
+                                <div class="w-full bg-gray-800 rounded-full h-2.5">
+                                    <div class="bg-green-500 h-2.5 rounded-full" style="width: 0%"></div>
+                                </div>
+                                <div class="flex justify-between mt-2">
+                                    <span class="text-xs text-gray-400">进度</span>
+                                    <span class="text-xs text-green-400">0%</span>
+                                </div>
+                            </div>
+                            <div class="bg-gray-900 rounded-lg p-4">
+                                <h4 class="font-medium text-white mb-3">3. 太原市所有区域架构拿到结果进度</h4>
+                                <div class="w-full bg-gray-800 rounded-full h-2.5">
+                                    <div class="bg-yellow-500 h-2.5 rounded-full" style="width: 0%"></div>
+                                </div>
+                                <div class="flex justify-between mt-2">
+                                    <span class="text-xs text-gray-400">进度</span>
+                                    <span class="text-xs text-yellow-400">0%</span>
+                                </div>
+                            </div>
+                            <div class="bg-gray-900 rounded-lg p-4">
+                                <h4 class="font-medium text-white mb-3">4. 登记人员拿到结果进度</h4>
+                                <div class="w-full bg-gray-800 rounded-full h-2.5">
+                                    <div class="bg-red-500 h-2.5 rounded-full" style="width: 0%"></div>
+                                </div>
+                                <div class="flex justify-between mt-2">
+                                    <span class="text-xs text-gray-400">进度</span>
+                                    <span class="text-xs text-red-400">0%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-6 text-center text-gray-400 text-sm">
+                            <p>开始时间：2026年3月14号</p>
+                            <p>开始登记</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // 添加到页面
+            document.body.appendChild(modal);
+            document.body.style.overflow = 'hidden'; // 防止背景滚动
+        }
+        
+        // 关闭使命数据模态框
+        function closeMissionModal() {
+            const modal = document.getElementById('missionModal');
+            if (modal) {
+                modal.remove();
+                document.body.style.overflow = ''; // 恢复背景滚动
+            }
+        }
+    </script>
+
+</body></html>
