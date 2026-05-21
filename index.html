@@ -1,1015 +1,1380 @@
-<html lang="zh-CN"><head>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>圆周率贸易有限公司 - 区域数据</title>
-    <!-- Tailwind CSS v3 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>中国银行APP</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <!-- AOS 动画库 -->
-    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     
+    <!-- 影视剧主创招募提示框 -->
+    <div id="recruitmentModal" class="fixed inset-0 bg-black/30 flex items-center justify-center z-50 hidden">
+        <div class="bg-white/90 backdrop-blur-sm rounded-xl w-[60vw] h-[60vw] max-w-[500px] max-h-[500px] p-6 shadow-2xl transform transition-all duration-500 scale-95 opacity-0" id="modalContent">
+            <button id="closeModal" class="absolute top-4 right-4 text-gray-600 hover:text-gray-900 text-xl bg-white/50 rounded-full w-8 h-8 flex items-center justify-center">
+                &times;
+            </button>
+            <div class="flex flex-col items-center justify-center h-full text-center">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800" style="font-family: 'Kaiti', 'STKaiti', 'KaiTi', sans-serif;">影视剧主创招募</h2>
+                <p class="text-gray-700 mb-6 text-sm">诚邀有才华的演员加入我们的剧组，共同打造精彩作品</p>
+                <div class="w-48 h-48 mb-6 overflow-hidden rounded-lg shadow-lg">
+                    <img src="https://p26-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/7dd4e76461b544e9b8687d0bb42a64e3~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=20260522010706BE4498A538C262158AE1&rrcfp=f06b921b&x-expires=1781975246&x-signature=ZgJhYhvFFFOTrElu4Hgmj%2F6XeXo%3D" alt="堪景参考图" class="w-full h-full object-cover animate-gentle-zoom">
+                </div>
+                <p class="text-gray-600 text-xs">堪景参考图 - 美丽的山水风光，适合拍摄场景</p>
+            </div>
+        </div>
+    </div>
+
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#1e40af', // 商务蓝
-                        secondary: '#f97316', // 突出橙色
-                        light: '#f8fafc',
-                        dark: '#1e293b'
+                        // 主色调
+                        'boc-red': '#d7000f',
+                        'boc-red-dark': '#b3000c',
+                        'boc-red-light': '#fdecec',
+                        
+                        // 辅助色
+                        'boc-blue': '#0056b3',
+                        'boc-blue-light': '#e6f0ff',
+                        
+                        // 中性色
+                        'boc-gray-50': '#fafafa',
+                        'boc-gray-100': '#f5f5f5',
+                        'boc-gray-200': '#eeeeee',
+                        'boc-gray-300': '#e0e0e0',
+                        'boc-gray-400': '#bdbdbd',
+                        'boc-gray-500': '#9e9e9e',
+                        
+                        // 功能色
+                        'boc-success': '#52c41a',
+                        'boc-warning': '#faad14',
+                        'boc-error': '#f5222d',
+                        'boc-info': '#1890ff',
+                        
+                        // 文本色
+                        'boc-text': '#333333',
+                        'boc-text-secondary': '#666666',
+                        'boc-text-tertiary': '#999999',
                     },
                     fontFamily: {
-                        sans: ['Inter', 'system-ui', 'sans-serif'],
-                    },
-                    boxShadow: {
-                        'card': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-                        'button': '0 2px 4px rgba(0, 0, 0, 0.1)',
-                        'button-hover': '0 4px 8px rgba(0, 0, 0, 0.15)'
+                        sans: ['PingFang SC', 'Helvetica Neue', 'Arial', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
+    
     <style type="text/tailwindcss">
         @layer utilities {
-            .text-shadow {
-                text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            /* 安全区域 */
+            .safe-area-inset-bottom {
+                padding-bottom: env(safe-area-inset-bottom);
             }
-            .transition-all-300 {
-                transition: all 300ms ease-in-out;
+            
+            /* 导航栏样式 */
+            .nav-item-active {
+                color: theme('colors.boc-red');
             }
-            .card-hover {
-                @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+            .nav-item-inactive {
+                color: theme('colors.boc-text-secondary');
             }
-            .district-button {
-                @apply relative flex flex-col items-center justify-center p-4 bg-white rounded-lg shadow-button border-2 border-transparent transition-all-300;
+            .nav-item {
+                position: relative;
+                transition: all 0.3s ease;
             }
-            .district-button:hover {
-                @apply shadow-button-hover border-primary cursor-pointer;
+            .nav-item:not(:last-child)::after {
+                content: '';
+                position: absolute;
+                right: 0;
+                top: 20%;
+                bottom: 20%;
+                width: 1px;
+                background-color: rgba(0, 0, 0, 0.05);
             }
-            .district-button.active {
-                @apply border-secondary bg-blue-50;
+            .nav-item:active {
+                transform: scale(0.95);
             }
-            .district-icon {
-                @apply text-primary text-xl mb-2;
+            
+            /* 渐变文字效果 */
+            .breathing-gradient {
+                background: linear-gradient(90deg, #d7000f, #ffcc00, #000000);
+                background-size: 200% 200%;
+                animation: breathing 3s ease-in-out infinite;
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
             }
-            .district-name {
-                @apply font-medium text-dark text-center;
+            @keyframes breathing {
+                0% {
+                    background-position: 0% 50%;
+                }
+                50% {
+                    background-position: 100% 50%;
+                }
+                100% {
+                    background-position: 0% 50%;
+                }
             }
-            .district-count {
-                @apply text-xs text-gray-500 mt-1;
+            
+            /* 滚动文字动画 */
+            @keyframes marquee {
+                0% {
+                    transform: translateX(100%);
+                }
+                100% {
+                    transform: translateX(-100%);
+                }
             }
-            .mission-button-gradient {
-                background: linear-gradient(90deg, rgba(220,38,38,1) 0%, rgba(34,197,94,1) 50%, rgba(59,130,246,1) 100%);
+            .animate-marquee {
+                animation: marquee 20s linear infinite;
             }
-            .text-glow {
-                text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #00ff00, 0 0 20px #00ff00, 0 0 25px #00ff00, 0 0 30px #00ff00, 0 0 35px #00ff00;
-                animation: glow 1.5s ease-in-out infinite alternate;
+            
+            /* 小球循环动画 */
+            @keyframes balls-loop {
+                0% {
+                    transform: translateX(100%);
+                }
+                100% {
+                    transform: translateX(-50%);
+                }
             }
-            @keyframes glow {
+            .animate-balls-loop {
+                animation: balls-loop 15s linear infinite;
+            }
+            
+            /* 玻璃态效果 */
+            .glass-effect {
+                background: rgba(255, 255, 255, 0.7);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+            }
+            
+            /* 渐变按钮效果 */
+            .gradient-button {
+                position: relative;
+                overflow: hidden;
+                z-index: 1;
+            }
+            .gradient-button::before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: linear-gradient(
+                    to right,
+                    rgba(255, 255, 255, 0) 0%,
+                    rgba(255, 255, 255, 0.3) 50%,
+                    rgba(255, 255, 255, 0) 100%
+                );
+                transform: rotate(30deg);
+                animation: shine 3s infinite;
+                z-index: -1;
+            }
+            @keyframes shine {
+                0% {
+                    transform: translateX(-100%) rotate(30deg);
+                }
+                100% {
+                    transform: translateX(100%) rotate(30deg);
+                }
+            }
+            
+            /* 页面过渡动画 */
+            .page-enter {
+                animation: pageEnter 0.3s ease-out forwards;
+            }
+            .page-exit {
+                animation: pageExit 0.3s ease-in forwards;
+            }
+            @keyframes pageEnter {
                 from {
-                    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #00ff00, 0 0 20px #00ff00, 0 0 25px #00ff00, 0 0 30px #00ff00, 0 0 35px #00ff00;
+                    opacity: 0;
+                    transform: translateY(10px);
                 }
                 to {
-                    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #39ff14, 0 0 40px #39ff14, 0 0 50px #39ff14, 0 0 60px #39ff14, 0 0 70px #39ff14;
+                    opacity: 1;
+                    transform: translateY(0);
                 }
             }
+            @keyframes pageExit {
+                from {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+                to {
+                    opacity: 0;
+                    transform: translateY(-10px);
+                }
+            }
+            
+            /* 卡片悬停效果 */
+            .card-hover {
+                transition: all 0.3s ease;
+            }
+            .card-hover:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            }
+            
+            /* 进度条动画 */
+            .progress-animate {
+                transition: width 1.5s ease-out;
+            }
+            
+            /* 微交互动画 */
+            .micro-interaction:active {
+                transform: scale(0.98);
+                transition: transform 0.1s ease;
+            }
+            
+            /* 加载动画 */
+            .loading-pulse {
+                animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            }
+            @keyframes pulse {
+                0%, 100% {
+                    opacity: 1;
+                }
+                50% {
+                    opacity: 0.5;
+                }
+            }
+            
+            /* 柔和缩放动画 */
+            @keyframes gentle-zoom {
+                0%, 100% {
+                    transform: scale(1);
+                }
+                50% {
+                    transform: scale(1.05);
+                }
+            }
+            .animate-gentle-zoom {
+                animation: gentle-zoom 8s ease-in-out infinite;
+            }
+            
+            /* 阴影效果 */
+            .shadow-soft {
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            }
+            .shadow-medium {
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+            }
+            .shadow-strong {
+                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            }
+        }
+        
+        body {
+            font-family: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            min-height: 100vh;
+        }
+        
+        .content-area {
+            height: calc(100vh - 50px - env(safe-area-inset-bottom));
         }
     </style>
 </head>
-<body class="bg-gray-50 font-sans">
-    <!-- 顶部导航栏 -->
-    <header class="bg-primary text-white shadow-md">
-        <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+<body class="bg-white text-boc-text">
+    <!-- 顶部状态栏 -->
+    <header class="bg-white shadow-sm">
+        <div class="flex items-center justify-between px-4 h-12">
             <div class="flex items-center">
-                <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center mr-3">
-                    <span class="text-primary font-bold text-xl">π</span>
+                <div class="w-10 h-10 bg-white border-2 border-red-500 flex items-center justify-center">
+                    <div class="text-boc-red font-bold text-xs" style="text-align: center; line-height: 1; font-family: 'Kaiti', 'STKaiti', 'KaiTi', sans-serif;">
+                        <div style="font-size: 14px; font-weight: bold;">银行</div>
+                        <div style="font-weight: bold; font-size: 14px;">变现</div>
+                    </div>
+                    
+
                 </div>
-                <h1 class="text-xl font-bold" style="color: rgb(240, 240, 53);">山西太原派链圆周率商会</h1>
             </div>
-            <button class="p-2 rounded-full hover:bg-blue-700 transition-colors">
-                <i class="fa fa-bars"></i>
-            </button>
+            <div class="flex-1 flex justify-center items-center">
+                <h1 class="text-lg font-bold breathing-gradient" style="font-size: 24px; text-align: center; width: 100%; font-family: 'Kaiti', 'STKaiti', 'KaiTi', sans-serif; font-weight: bold;">派币兑换专区</h1>
+            </div>
+            <div class="flex items-center">
+                <!-- 搜索和通知按钮已移除 -->
+            </div>
         </div>
     </header>
-
-    <!-- 主要内容区域 -->
-    <main class="container mx-auto px-4 py-6">
-        <!-- 页面标题 -->
-        <div class="mb-6" data-aos="fade-up" data-aos-duration="600">
-            <h2 class="text-2xl font-bold text-dark mb-2">太原市派友区域数据</h2>
-            <p class="text-gray-600">查看各区域人员分布及统计数据</p>
-        </div>
-
-        <!-- 数据统计卡片 -->
-        <div class="grid grid-cols-2 gap-4 mb-8">
-            <!-- 太原市统计数据卡片 -->
-            <div class="bg-white rounded-xl shadow-card p-4 card-hover cursor-pointer" data-aos="fade-up" data-aos-duration="600" data-aos-delay="100" onclick="showStatisticsModal()">
-                <div class="flex items-center justify-between mb-3">
-                    <h3 class="text-base font-semibold text-dark">太原市统计派友数据</h3>
-                    <span class="text-xs px-2 py-0.5 bg-blue-100 text-primary rounded-full">总体</span>
-                </div>
-                <div class="flex items-end">
-                    <p class="text-2xl font-bold text-primary">2,856</p>
-                    <p class="text-xs text-gray-500 ml-2 mb-0.5">人</p>
-                </div>
-                <p class="text-xs text-gray-500 mt-1">总销售额</p>
-                <div class="mt-3 flex items-center text-xs">
-                    <span class="text-green-500 flex items-center">
-                        <i class="fa fa-arrow-up mr-1"></i> 12.5%
-                    </span>
-                    <span class="text-gray-500 ml-2">较上月</span>
-                </div>
-            </div>
-
-            <!-- 架构人员数量卡片 -->
-            <div class="bg-white rounded-xl shadow-card p-4 card-hover cursor-pointer" data-aos="fade-up" data-aos-duration="600" data-aos-delay="200" onclick="showMembershipModal()">
-                <div class="flex items-center justify-between mb-3">
-                    <h3 class="text-base font-semibold text-dark">派架构内部人员数量</h3>
-                    <span class="text-xs px-2 py-0.5 bg-orange-100 text-secondary rounded-full">人员</span>
-                </div>
-                <div class="flex items-end">
-                    <p class="text-2xl font-bold text-secondary">342</p>
-                    <p class="text-xs text-gray-500 ml-2 mb-0.5">人</p>
-                </div>
-                <p class="text-xs text-gray-500 mt-1">在职人员</p>
-                <div class="mt-3 flex items-center text-xs">
-                    <span class="text-green-500 flex items-center">
-                        <i class="fa fa-arrow-up mr-1"></i> 3.2%
-                    </span>
-                    <span class="text-gray-500 ml-2">较上季度</span>
-                </div>
-            </div>
-        </div>
-        
-        <!-- 派商会使命数据按钮 -->
-        <div class="mb-6" data-aos="fade-up" data-aos-duration="600" data-aos-delay="250">
-            <button id="missionButton" class="w-full py-3 rounded-lg font-semibold text-white mission-button-gradient relative overflow-hidden group" onclick="showMissionModal()">
-                <span class="relative z-10 text-glow" style="color: rgb(5, 3, 3); font-size: 20px;">派商会成功数据</span>
-            </button>
-        </div>
-
-        <!-- 负责人信息按钮区域 -->
-        <div class="mb-6" data-aos="fade-up" data-aos-duration="600" data-aos-delay="300">
-            <h3 class="text-lg font-semibold text-dark mb-3">负责人信息</h3>
-            <div class="grid grid-cols-1 gap-2">
-                <!-- 山西省会长信息 -->
-                <div class="bg-white rounded-lg shadow-button p-3 flex items-center">
-                    <div class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 mr-3">
-                        <i class="fa fa-user-circle text-primary text-xl"></i>
-                    </div>
-                    <div>
-                        <div class="flex items-center">
-                            <span class="bg-primary text-white text-xs px-2 py-0.5 rounded-full mr-2">山西省会长</span>
-                            <h4 class="font-medium text-dark">张三</h4>
-                        </div>
-                        <p class="text-xs text-gray-500 mt-1">年龄: 45 | 电话: 138****1234</p>
-                        <p class="text-xs text-gray-500">住址: 迎泽区</p>
-                    </div>
-                </div>
-                
-                <!-- 山西省副会长信息 -->
-                <div class="bg-white rounded-lg shadow-button p-3 flex items-center">
-                    <div class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 mr-3">
-                        <i class="fa fa-user-circle text-primary text-xl"></i>
-                    </div>
-                    <div>
-                        <div class="flex items-center">
-                            <span class="bg-primary text-white text-xs px-2 py-0.5 rounded-full mr-2">山西省副会长</span>
-                            <h4 class="font-medium text-dark">李四</h4>
-                        </div>
-                        <p class="text-xs text-gray-500 mt-1">年龄: 42 | 电话: 139****5678</p>
-                        <p class="text-xs text-gray-500">住址: 杏花岭区</p>
-                    </div>
-                </div>
-                
-                <!-- 太原市会长信息 -->
-                <div class="bg-white rounded-lg shadow-button p-3 flex items-center">
-                    <div class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 mr-3">
-                        <i class="fa fa-user-circle text-primary text-xl"></i>
-                    </div>
-                    <div>
-                        <div class="flex items-center">
-                            <span class="bg-secondary text-white text-xs px-2 py-0.5 rounded-full mr-2">太原市会长</span>
-                            <h4 class="font-medium text-dark">待确认</h4>
-                        </div>
-                        <p class="text-xs text-gray-500 mt-1">年龄: 38 | 电话: 137****9012</p>
-                        <p class="text-xs text-gray-500">住址: 小店区</p>
-                    </div>
-                </div>
-                
-                <!-- 太原市副会长信息 -->
-                <div class="bg-white rounded-lg shadow-button p-3 flex items-center">
-                    <div class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 mr-3">
-                        <i class="fa fa-user-circle text-primary text-xl"></i>
-                    </div>
-                    <div>
-                        <div class="flex items-center">
-                            <span class="bg-secondary text-white text-xs px-2 py-0.5 rounded-full mr-2">太原市副会长</span>
-                            <h4 class="font-medium text-dark">待确认</h4>
-                        </div>
-                        <p class="text-xs text-gray-500 mt-1">年龄: 36 | 电话: 136****3456</p>
-                        <p class="text-xs text-gray-500">住址: 万柏林区</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 区域选择标题 -->
-        <div class="mb-4" data-aos="fade-up" data-aos-duration="600" data-aos-delay="300">
-            <h3 class="text-lg font-semibold text-dark">区域选择</h3>
-            <p class="text-sm text-gray-500">点击区域查看详细信息</p>
-        </div>
-
-        <!-- 区域按钮网格 - 2x5布局 -->
-        <div class="grid grid-cols-2 gap-4" data-aos="fade-up" data-aos-duration="600" data-aos-delay="400">
-            <div class="district-button" data-district="尖草坪区" onclick="selectDistrict(this)">
-                <i class="fa fa-building district-icon"></i>
-                <span class="district-name">尖草坪区</span>
-                <span class="district-count">39人</span>
-            </div>
-            <div class="district-button" data-district="迎泽区" onclick="selectDistrict(this)">
-                <i class="fa fa-building district-icon"></i>
-                <span class="district-name">迎泽区</span>
-                <span class="district-count">56人</span>
-            </div>
-            <div class="district-button" data-district="万柏林区" onclick="selectDistrict(this)">
-                <i class="fa fa-building district-icon"></i>
-                <span class="district-name">万柏林区</span>
-                <span class="district-count">45人</span>
-            </div>
-            <div class="district-button" data-district="杏花岭区" onclick="selectDistrict(this)">
-                <i class="fa fa-building district-icon"></i>
-                <span class="district-name">杏花岭区</span>
-                <span class="district-count">48人</span>
-            </div>
-            <div class="district-button" data-district="小店区" onclick="selectDistrict(this)">
-                <i class="fa fa-building district-icon"></i>
-                <span class="district-name">小店区</span>
-                <span class="district-count">62人</span>
-            </div>
-            <div class="district-button" data-district="晋源区" onclick="selectDistrict(this)">
-                <i class="fa fa-building district-icon"></i>
-                <span class="district-name">晋源区</span>
-                <span class="district-count">31人</span>
-            </div>
-            <div class="district-button" data-district="清徐县" onclick="selectDistrict(this)">
-                <i class="fa fa-building district-icon"></i>
-                <span class="district-name">清徐县</span>
-                <span class="district-count">28人</span>
-            </div>
-            <div class="district-button" data-district="阳曲县" onclick="selectDistrict(this)">
-                <i class="fa fa-building district-icon"></i>
-                <span class="district-name">阳曲县</span>
-                <span class="district-count">22人</span>
-            </div>
-            <div class="district-button" data-district="娄烦县" onclick="selectDistrict(this)">
-                <i class="fa fa-building district-icon"></i>
-                <span class="district-name">娄烦县</span>
-                <span class="district-count">18人</span>
-            </div>
-            <div class="district-button" data-district="古交市" onclick="selectDistrict(this)">
-                <i class="fa fa-building district-icon"></i>
-                <span class="district-name">古交市</span>
-                <span class="district-count">21人</span>
-            </div>
-        </div>
-
-        <!-- 区域详细信息卡片 (默认隐藏) -->
-        <div id="districtDetails" class="mt-8 bg-white rounded-xl shadow-card p-5 hidden" data-aos="fade-up" data-aos-duration="600">
-            <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-semibold text-dark flex items-center">
-                    <span id="selectedDistrictName">迎泽区</span>
-                    <span class="text-xs px-2 py-1 bg-blue-100 text-primary rounded-full ml-2">区域详情</span>
-                </h3>
-                <button class="text-gray-400 hover:text-gray-600" onclick="hideDistrictDetails()">
-                    <i class="fa fa-times"></i>
-                </button>
-            </div>
-            
-            <div class="grid grid-cols-2 gap-4 mb-4">
-                <div>
-                    <p class="text-sm text-gray-500">销售额</p>
-                    <p class="text-xl font-bold text-primary"><span id="districtSales">428</span> 万元</p>
-                </div>
-                <div>
-                    <p class="text-sm text-gray-500">人员数量</p>
-                    <p class="text-xl font-bold text-secondary"><span id="districtStaff">56</span> 人</p>
-                </div>
-            </div>
-            
-            <div class="mb-4">
-                <p class="text-sm text-gray-500 mb-2">销售趋势</p>
-                <div class="h-32 bg-gray-100 rounded-lg flex items-end justify-around p-2">
-                    <div class="flex flex-col items-center">
-                        <div class="w-6 bg-blue-400 rounded-t-md" style="height: 40%"></div>
-                        <span class="text-xs text-gray-500 mt-1">1月</span>
-                    </div>
-                    <div class="flex flex-col items-center">
-                        <div class="w-6 bg-blue-400 rounded-t-md" style="height: 60%"></div>
-                        <span class="text-xs text-gray-500 mt-1">2月</span>
-                    </div>
-                    <div class="flex flex-col items-center">
-                        <div class="w-6 bg-blue-400 rounded-t-md" style="height: 50%"></div>
-                        <span class="text-xs text-gray-500 mt-1">3月</span>
-                    </div>
-                    <div class="flex flex-col items-center">
-                        <div class="w-6 bg-blue-500 rounded-t-md" style="height: 80%"></div>
-                        <span class="text-xs text-gray-500 mt-1">4月</span>
-                    </div>
-                    <div class="flex flex-col items-center">
-                        <div class="w-6 bg-blue-600 rounded-t-md" style="height: 100%"></div>
-                        <span class="text-xs text-gray-500 mt-1">5月</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="flex justify-between">
-                <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
-                    <i class="fa fa-bar-chart mr-1"></i> 查看报表
-                </button>
-                <button class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors">
-                    <i class="fa fa-users mr-1"></i> 人员详情
-                </button>
+    
+    <!-- 内容区域 - 留空供用户填充 -->
+    <main id="content" class="content-area overflow-y-auto pb-4">
+        <!-- 内容将通过JavaScript动态加载 -->
+        <div class="flex items-center justify-center h-full">
+            <div class="text-center">
+                <p class="text-boc-text-secondary mb-4">内容区域留空</p>
+                <p class="text-xs text-boc-text-secondary">请根据需要自行填充内容</p>
             </div>
         </div>
     </main>
+    
+    <!-- 底部导航栏 -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 safe-area-inset-bottom">
+        <div class="flex justify-around h-12">
+            <button class="nav-item flex flex-col items-center justify-center flex-1 nav-item-active" data-target="home">
+                <i class="fa fa-home text-lg"></i>
+                <span class="text-xs mt-1">首页</span>
+            </button>
+            <button class="nav-item flex flex-col items-center justify-center flex-1 nav-item-inactive" data-target="credit-card">
+                <i class="fa fa-map-marker text-lg"></i>
+                <span class="text-xs mt-1">全国</span>
+            </button>
+            <button class="nav-item flex flex-col items-center justify-center flex-1 nav-item-inactive" data-target="wealth">
+                <i class="fa fa-leaf text-lg"></i>
+                <span class="text-xs mt-1">生态</span>
+            </button>
+            <button class="nav-item flex flex-col items-center justify-center flex-1 nav-item-inactive" data-target="my">
+                <i class="fa fa-share-alt text-lg"></i>
+                <span class="text-xs mt-1">渠道</span>
+            </button>
+        </div>
+    </nav>
+    
 
 
+    <!-- 音效元素 -->
+    <audio id="clickSound1" preload="auto">
+        <source src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="clickSound2" preload="auto">
+        <source src="https://assets.mixkit.co/active_storage/sfx/2016/2016-preview.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="clickSound3" preload="auto">
+        <source src="https://assets.mixkit.co/active_storage/sfx/2017/2017-preview.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="clickSound4" preload="auto">
+        <source src="https://assets.mixkit.co/active_storage/sfx/2018/2018-preview.mp3" type="audio/mpeg">
+    </audio>
 
     <script>
-        // 初始化AOS动画库
-        document.addEventListener('DOMContentLoaded', function() {
-            AOS.init();
-        });
-
-        // 创建音频上下文和音效
-        let audioContext;
-        function initAudio() {
-            if (!audioContext) {
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            }
-        }
-
-        // 播放点击音效
-        function playClickSound() {
-            initAudio();
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-
-            oscillator.frequency.setValueAtTime(880, audioContext.currentTime); // 高音调
-            oscillator.frequency.exponentialRampToValueAtTime(440, audioContext.currentTime + 0.1); // 下降到低音调
-
-            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-
-            oscillator.start(audioContext.currentTime);
-            oscillator.stop(audioContext.currentTime + 0.1);
-        }
-
-        // 为所有按钮添加音效
-        document.addEventListener('click', function(e) {
-            if (e.target.tagName === 'BUTTON' || e.target.closest('.cursor-pointer') || e.target.closest('.district-button')) {
-                playClickSound();
-            }
-        });
-        
-        // 显示统计数据模态框
-        function showStatisticsModal() {
-            // 创建模态框
-            const modal = document.createElement('div');
-            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
-            modal.id = 'statisticsModal';
-            
-            // 模态框内容
-            modal.innerHTML = `
-                <div class="bg-white rounded-xl shadow-lg w-11/12 max-w-md max-h-[90vh] overflow-y-auto relative">
-                    <!-- 右上角关闭按钮 -->
-                    <button onclick="closeStatisticsModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200 hover:text-gray-700 z-10">
-                        <i class="fa fa-times"></i>
-                    </button>
-                    
-                    <div class="p-5 border-b">
-                        <h3 class="text-lg font-semibold text-dark text-center">太原市统计数据</h3>
+        // 页面内容模板
+        const pageTemplates = {
+            home: `
+                <div class="p-4">
+                    <div class="border-2 border-gray-200 rounded-lg p-3 mb-6">
+                        <h1 class="text-lg font-bold mb-1 text-boc-red" style="font-family: 'Kaiti', 'STKaiti', 'KaiTi', sans-serif;">特别提醒</h1>
+                        <p class="text-sm text-black" style="font-family: 'Kaiti', 'STKaiti', 'KaiTi', sans-serif; font-weight: bold;">请派友须知，314159价格已经正式开启，各大生态，企业，银行即将相继开启兑换。</p>
                     </div>
-                    <div class="p-5">
-                        <div class="space-y-4">
-                            <div class="bg-gray-50 rounded-lg p-4">
-                                <h4 class="font-medium text-dark mb-2">第一统计</h4>
-                                <p class="text-sm">八绿九黄人员：<span class="font-semibold">1,234</span> 人</p>
-                            </div>
-                            <div class="bg-gray-50 rounded-lg p-4">
-                                <h4 class="font-medium text-dark mb-2">第二统计</h4>
-                                <p class="text-sm">九绿人员：<span class="font-semibold">567</span> 人</p>
-                            </div>
-                            <div class="bg-gray-50 rounded-lg p-4">
-                                <h4 class="font-medium text-dark mb-2">第三统计</h4>
-                                <p class="text-sm">待统计人员：<span class="font-semibold">890</span> 人</p>
+                    <div class="flex items-center mb-4 overflow-hidden bg-gray-100 py-1 -mt-4 mx-0 px-0 w-full">
+                        <div class="text-xs font-bold mr-3 whitespace-nowrap text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-black animate-pulse" style="font-family: 'Kaiti', 'STKaiti', 'KaiTi', sans-serif;">服务提醒：</div>
+                        <div class="flex-1 overflow-hidden">
+                            <div class="whitespace-nowrap animate-marquee text-xs">
+                                欢迎使用派币兑换服务，请确保您的账户已完成实名认证，兑换过程中如有任何问题请联系客服。
                             </div>
                         </div>
                     </div>
-                    <div class="p-5 border-t bg-gray-50 rounded-b-xl">
-                        <button onclick="closeStatisticsModal()" class="w-full py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors">
-                            关闭
-                        </button>
+                    
+                    <!-- 公告栏 -->
+                    <div class="mt-1 mb-6">
+                        <div class="border border-yellow-500 rounded-lg overflow-hidden shadow-lg bg-white p-1">
+                            <!-- 公告栏标题 -->
+                            <div class="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white py-2 px-4 flex items-center rounded">
+                                <i class="fa fa-bullhorn mr-2"></i>
+                                <h2 class="text-lg font-bold" style="font-family: 'Kaiti', 'STKaiti', 'KaiTi', sans-serif;">公告栏</h2>
+                            </div>
+                            
+                            <!-- 公告内容 -->
+                            <div class="bg-white p-4 border border-gray-200 rounded mt-1">
+                                <ul class="space-y-2">
+                                    <li class="flex items-start">
+                                        <span class="text-red-500 font-bold mr-2 text-lg">●</span>
+                                        <div>
+                                            <p class="font-bold">派币兑换服务6月28日起系统升级</p>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-red-500 font-bold mr-2 text-lg">●</span>
+                                        <div>
+                                            <p class="font-bold">8绿，9绿用户都可以参与免费兑换报名</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- 金色发光横线和循环小球 -->
+                    <div class="relative mb-16 mt-0">
+                        <!-- 循环小球容器 -->
+                        <div class="relative h-16 overflow-hidden -mt-2">
+                            <div class="flex space-x-16 animate-balls-loop">
+                                <!-- 小球1 -->
+                                <div class="flex flex-col items-center">
+                                    <div class="w-8 h-8 rounded-full bg-gradient-to-r from-yellow-400 to-red-500 shadow-lg shadow-yellow-500/80 border-2 border-yellow-600 animate-pulse"></div>
+                                    <span class="text-xs mt-1 text-black font-bold">派友</span>
+                                </div>
+                                
+                                <!-- 小球2 -->
+                                <div class="flex flex-col items-center">
+                                    <div class="w-8 h-8 rounded-full bg-gradient-to-r from-yellow-400 to-red-500 shadow-lg shadow-yellow-500/80 border-2 border-yellow-600 animate-pulse"></div>
+                                    <span class="text-xs mt-1 text-black font-bold">手机</span>
+                                </div>
+                                
+                                <!-- 小球3 -->
+                                <div class="flex flex-col items-center">
+                                    <div class="w-8 h-8 rounded-full bg-gradient-to-r from-yellow-400 to-red-500 shadow-lg shadow-yellow-500/80 border-2 border-yellow-600 animate-pulse"></div>
+                                    <span class="text-xs mt-1 text-black font-bold">节点</span>
+                                </div>
+                                
+                                <!-- 小球4 -->
+                                <div class="flex flex-col items-center">
+                                    <div class="w-8 h-8 rounded-full bg-gradient-to-r from-yellow-400 to-red-500 shadow-lg shadow-yellow-500/80 border-2 border-yellow-600 animate-pulse"></div>
+                                    <span class="text-xs mt-1 text-black font-bold">生态</span>
+                                </div>
+                                
+                                <!-- 小球5 -->
+                                <div class="flex flex-col items-center">
+                                    <div class="w-8 h-8 rounded-full bg-gradient-to-r from-yellow-400 to-red-500 shadow-lg shadow-yellow-500/80 border-2 border-yellow-600 animate-pulse"></div>
+                                    <span class="text-xs mt-1 text-black font-bold">兑换</span>
+                                </div>
+                                
+                                <!-- 复制一组小球用于无缝循环 -->
+                                <div class="flex flex-col items-center">
+                                    <div class="w-8 h-8 rounded-full bg-gradient-to-r from-yellow-400 to-red-500 shadow-lg shadow-yellow-500/80 border-2 border-yellow-600 animate-pulse"></div>
+                                    <span class="text-xs mt-1 text-black font-bold">派友</span>
+                                </div>
+                                
+                                <div class="flex flex-col items-center">
+                                    <div class="w-8 h-8 rounded-full bg-gradient-to-r from-yellow-400 to-red-500 shadow-lg shadow-yellow-500/80 border-2 border-yellow-600 animate-pulse"></div>
+                                    <span class="text-xs mt-1 text-black font-bold">手机</span>
+                                </div>
+                                
+                                <div class="flex flex-col items-center">
+                                    <div class="w-8 h-8 rounded-full bg-gradient-to-r from-yellow-400 to-red-500 shadow-lg shadow-yellow-500/80 border-2 border-yellow-600 animate-pulse"></div>
+                                    <span class="text-xs mt-1 text-black font-bold">节点</span>
+                                </div>
+                                
+                                <div class="flex flex-col items-center">
+                                    <div class="w-8 h-8 rounded-full bg-gradient-to-r from-yellow-400 to-red-500 shadow-lg shadow-yellow-500/80 border-2 border-yellow-600 animate-pulse"></div>
+                                    <span class="text-xs mt-1 text-black font-bold">生态</span>
+                                </div>
+                                
+                                <div class="flex flex-col items-center">
+                                    <div class="w-8 h-8 rounded-full bg-gradient-to-r from-yellow-400 to-red-500 shadow-lg shadow-yellow-500/80 border-2 border-yellow-600 animate-pulse"></div>
+                                    <span class="text-xs mt-1 text-black font-bold">兑换</span>
+                                </div>
+                            </div>
+                            
+                            <!-- 金色发光横线 - 贯穿小球中心，带呼吸灯效果 -->
+                            <div class="absolute top-[calc(50%-16px)] left-0 right-0 h-1 bg-gradient-to-r from-yellow-300 via-yellow-500 to-red-500 shadow-lg shadow-yellow-500/50 z-0 animate-pulse"></div>
+                        </div>
+                    </div>
+
                 </div>
-            `;
-            
-            // 添加到页面
-            document.body.appendChild(modal);
-            document.body.style.overflow = 'hidden'; // 防止背景滚动
-        }
-        
-        // 关闭统计数据模态框
-        function closeStatisticsModal() {
-            const modal = document.getElementById('statisticsModal');
-            if (modal) {
-                modal.remove();
-                document.body.style.overflow = ''; // 恢复背景滚动
-            }
-        }
-        
-        // 区域招募状态数据
-        const districtRecruitmentStatus = {
-            '尖草坪区': { status: 'full', president: 1, vicePresident: 2, staff: 5 },
-            '迎泽区': { status: 'full', president: 1, vicePresident: 2, staff: 5 },
-            '万柏林区': { status: 'full', president: 1, vicePresident: 2, staff: 5 },
-            '杏花岭区': { status: 'full', president: 1, vicePresident: 2, staff: 5 },
-            '小店区': { status: 'full', president: 1, vicePresident: 2, staff: 5 },
-            '晋源区': { status: 'full', president: 1, vicePresident: 2, staff: 5 },
-            '清徐县': { status: 'full', president: 1, vicePresident: 2, staff: 5 },
-            '阳曲县': { status: 'recruiting', president: 0, vicePresident: 0, staff: 0 },
-            '娄烦县': { status: 'recruiting', president: 0, vicePresident: 0, staff: 0 },
-            '古交市': { status: 'recruiting', president: 0, vicePresident: 0, staff: 0 }
-        };
-        
-        // 显示成员资格模态框
-        function showMembershipModal() {
-            // 创建模态框
-            const modal = document.createElement('div');
-            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
-            modal.id = 'membershipModal';
-            
-            // 构建区域状态HTML
-            let districtsHtml = Object.entries(districtRecruitmentStatus).map(([district, data]) => {
-                const statusText = data.status === 'full' ? '已满员' : '正在招募';
-                const statusClass = data.status === 'full' ? 'text-green-500' : 'text-red-500';
-                
-                return `
-                    <div class="bg-white rounded-lg shadow-button p-3 mb-3">
-                        <div class="flex justify-between items-center mb-2">
-                            <h4 class="font-medium text-dark">${district}</h4>
-                            <span class="${statusClass} text-sm font-medium">${statusText}</span>
-                        </div>
-                        <div class="grid grid-cols-2 gap-2 text-sm">
-                            <div>
-                                <span class="text-gray-500">会长:</span>
-                                <span>${data.president}人</span>
+            `,
+            'credit-card': `
+                <div class="p-4">
+                    <!-- 绿色透明公告栏 -->
+                    <div class="mb-4 bg-green-500/80 backdrop-blur-sm rounded-lg p-4 text-white shadow-lg">
+                        <div class="flex items-center">
+                            <div class="bg-white/20 rounded-full p-2 mr-3">
+                                <i class="fa fa-bullhorn text-lg"></i>
                             </div>
-                            <div>
-                                <span class="text-gray-500">副会长:</span>
-                                <span>${data.vicePresident}人</span>
-                            </div>
-                            <div>
-                                <span class="text-gray-500">架构人员:</span>
-                                <span>${data.staff}人</span>
-                            </div>
-                            <div>
-                                <span class="text-gray-500">招募状态:</span>
-                                <span class="${statusClass}">${data.status === 'full' ? '已满员' : '正在招募'}</span>
+                            <div class="flex-1">
+                                <h3 class="font-bold text-sm mb-1">全球派币兑换公告</h3>
+                                <p class="text-xs text-white/90">派币兑换服务即将在全球范围内推广，敬请期待最新动态。</p>
                             </div>
                         </div>
                     </div>
-                `;
-            }).join('');
-            
-            // 计算总数
-            const totalPresident = Object.values(districtRecruitmentStatus).reduce((sum, data) => sum + data.president, 0);
-            const totalVicePresident = Object.values(districtRecruitmentStatus).reduce((sum, data) => sum + data.vicePresident, 0);
-            const totalStaff = Object.values(districtRecruitmentStatus).reduce((sum, data) => sum + data.staff, 0);
-            
-            // 模态框内容
-            modal.innerHTML = `
-                <div class="bg-white rounded-xl shadow-lg w-11/12 max-w-md max-h-[90vh] overflow-y-auto relative">
-                    <!-- 右上角关闭按钮 -->
-                    <button onclick="closeMembershipModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200 hover:text-gray-700 z-10">
-                        <i class="fa fa-times"></i>
-                    </button>
                     
-                    <div class="p-5 border-b">
-                        <h3 class="text-lg font-semibold text-dark text-center">太原市绘本</h3>
-                    </div>
-                    <div class="p-5">
-                        <!-- 总体统计 -->
-                        <div class="bg-gray-50 rounded-lg p-4 mb-4">
-                            <h4 class="font-medium text-dark mb-2">太原市各区域人员统计</h4>
-                            <div class="grid grid-cols-2 gap-2 text-sm">
-                                <div>
-                                    <span class="text-gray-500">会长总数:</span>
-                                    <span>${totalPresident}人</span>
+                    <h1 class="text-base font-bold mb-4 text-center">全国</h1>
+                    
+                    <!-- 省份分布区域 - 高级化处理 -->
+                    <div class="relative">
+                        <!-- 中央紫色竖线 - 优化样式 -->
+                        <div class="absolute left-1/2 transform -translate-x-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-purple-400 via-purple-600 to-purple-800 rounded-full shadow-lg shadow-purple-500/20"></div>
+                        
+                        <!-- 省份网格布局 - 缩小化处理 -->
+                        <div class="grid grid-cols-2 gap-3">
+                            <!-- 左侧省份 - 显示10个 -->
+                            <div class="space-y-4">
+                                <div class="bg-white rounded-xl p-3 shadow-sm border border-purple-100 hover:shadow-md transition-all duration-200">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center">
+                                            <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-0.5 rounded mr-2">1</span>
+                                            <p class="font-semibold text-sm text-gray-800">北京市</p>
+                                        </div>
+                                        <span class="text-xs font-medium text-purple-600">0%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                        <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-1.5">0人</p>
                                 </div>
-                                <div>
-                                    <span class="text-gray-500">副会长总数:</span>
-                                    <span>${totalVicePresident}人</span>
+                                
+                                <div class="bg-white rounded-xl p-3 shadow-sm border border-purple-100 hover:shadow-md transition-all duration-200">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center">
+                                            <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-0.5 rounded mr-2">2</span>
+                                            <p class="font-semibold text-sm text-gray-800">上海市</p>
+                                        </div>
+                                        <span class="text-xs font-medium text-purple-600">0%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                        <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-1.5">0人</p>
                                 </div>
-                                <div>
-                                    <span class="text-gray-500">架构人员总数:</span>
-                                    <span>${totalStaff}人</span>
+                                
+                                <div class="bg-white rounded-xl p-3 shadow-sm border border-purple-100 hover:shadow-md transition-all duration-200">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center">
+                                            <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-0.5 rounded mr-2">3</span>
+                                            <p class="font-semibold text-sm text-gray-800">江苏省</p>
+                                        </div>
+                                        <span class="text-xs font-medium text-purple-600">0%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                        <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-1.5">0人</p>
+                                </div>
+                                
+                                <div class="bg-white rounded-xl p-3 shadow-sm border border-purple-100 hover:shadow-md transition-all duration-200">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center">
+                                            <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-0.5 rounded mr-2">4</span>
+                                            <p class="font-semibold text-sm text-gray-800">浙江省</p>
+                                        </div>
+                                        <span class="text-xs font-medium text-purple-600">0%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                        <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-1.5">0人</p>
+                                </div>
+                                
+                                <div class="bg-white rounded-xl p-3 shadow-sm border border-purple-100 hover:shadow-md transition-all duration-200">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center">
+                                            <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-0.5 rounded mr-2">5</span>
+                                            <p class="font-semibold text-sm text-gray-800">广东省</p>
+                                        </div>
+                                        <span class="text-xs font-medium text-purple-600">0%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                        <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-1.5">0人</p>
+                                </div>
+                                
+                                <div class="bg-white rounded-xl p-3 shadow-sm border border-purple-100 hover:shadow-md transition-all duration-200">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center">
+                                            <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-0.5 rounded mr-2">6</span>
+                                            <p class="font-semibold text-sm text-gray-800">四川省</p>
+                                        </div>
+                                        <span class="text-xs font-medium text-purple-600">0%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                        <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-1.5">0人</p>
+                                </div>
+                                
+                                <div class="bg-white rounded-xl p-3 shadow-sm border border-purple-100 hover:shadow-md transition-all duration-200">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center">
+                                            <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-0.5 rounded mr-2">7</span>
+                                            <p class="font-semibold text-sm text-gray-800">山东省</p>
+                                        </div>
+                                        <span class="text-xs font-medium text-purple-600">0%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                        <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-1.5">0人</p>
+                                </div>
+                                
+                                <div class="bg-white rounded-xl p-3 shadow-sm border border-purple-100 hover:shadow-md transition-all duration-200">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center">
+                                            <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-0.5 rounded mr-2">8</span>
+                                            <p class="font-semibold text-sm text-gray-800">河南省</p>
+                                        </div>
+                                        <span class="text-xs font-medium text-purple-600">0%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                        <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-1.5">0人</p>
+                                </div>
+                                
+                                <div class="bg-white rounded-xl p-3 shadow-sm border border-purple-100 hover:shadow-md transition-all duration-200">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center">
+                                            <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-0.5 rounded mr-2">9</span>
+                                            <p class="font-semibold text-sm text-gray-800">河北省</p>
+                                        </div>
+                                        <span class="text-xs font-medium text-purple-600">0%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                        <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-1.5">0人</p>
+                                </div>
+                                
+                                <div class="bg-white rounded-xl p-3 shadow-sm border border-purple-100 hover:shadow-md transition-all duration-200">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center">
+                                            <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-0.5 rounded mr-2">10</span>
+                                            <p class="font-semibold text-sm text-gray-800">湖南省</p>
+                                        </div>
+                                        <span class="text-xs font-medium text-purple-600">0%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                        <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-1.5">0人</p>
+                                </div>
+                            </div>
+                            
+                            <!-- 右侧省份 - 显示10个 -->
+                            <div class="space-y-4">
+                                <div class="bg-white rounded-xl p-3 shadow-sm border border-purple-100 hover:shadow-md transition-all duration-200">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center">
+                                            <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-0.5 rounded mr-2">11</span>
+                                            <p class="font-semibold text-sm text-gray-800">湖北省</p>
+                                        </div>
+                                        <span class="text-xs font-medium text-purple-600">0%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                        <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-1.5">0人</p>
+                                </div>
+                                
+                                <div class="bg-white rounded-xl p-3 shadow-sm border border-purple-100 hover:shadow-md transition-all duration-200">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center">
+                                            <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-0.5 rounded mr-2">12</span>
+                                            <p class="font-semibold text-sm text-gray-800">福建省</p>
+                                        </div>
+                                        <span class="text-xs font-medium text-purple-600">0%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                        <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-1.5">0人</p>
+                                </div>
+                                
+                                <div class="bg-white rounded-xl p-3 shadow-sm border border-purple-100 hover:shadow-md transition-all duration-200">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center">
+                                            <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-0.5 rounded mr-2">13</span>
+                                            <p class="font-semibold text-sm text-gray-800">安徽省</p>
+                                        </div>
+                                        <span class="text-xs font-medium text-purple-600">0%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                        <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-1.5">0人</p>
+                                </div>
+                                
+                                <div class="bg-white rounded-xl p-3 shadow-sm border border-purple-100 hover:shadow-md transition-all duration-200">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center">
+                                            <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-0.5 rounded mr-2">14</span>
+                                            <p class="font-semibold text-sm text-gray-800">陕西省</p>
+                                        </div>
+                                        <span class="text-xs font-medium text-purple-600">0%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                        <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-1.5">0人</p>
+                                </div>
+                                
+                                <div class="bg-white rounded-xl p-3 shadow-sm border border-purple-100 hover:shadow-md transition-all duration-200">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center">
+                                            <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-0.5 rounded mr-2">15</span>
+                                            <p class="font-semibold text-sm text-gray-800">山西省</p>
+                                        </div>
+                                        <span class="text-xs font-medium text-purple-600">0%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                        <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-1.5">0人</p>
+                                </div>
+                                
+                                <div class="bg-white rounded-xl p-3 shadow-sm border border-purple-100 hover:shadow-md transition-all duration-200">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center">
+                                            <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-0.5 rounded mr-2">16</span>
+                                            <p class="font-semibold text-sm text-gray-800">江西省</p>
+                                        </div>
+                                        <span class="text-xs font-medium text-purple-600">0%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                        <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-1.5">0人</p>
+                                </div>
+                                
+                                <div class="bg-white rounded-xl p-3 shadow-sm border border-purple-100 hover:shadow-md transition-all duration-200">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center">
+                                            <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-0.5 rounded mr-2">17</span>
+                                            <p class="font-semibold text-sm text-gray-800">云南省</p>
+                                        </div>
+                                        <span class="text-xs font-medium text-purple-600">0%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                        <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-1.5">0人</p>
+                                </div>
+                                
+                                <div class="bg-white rounded-xl p-3 shadow-sm border border-purple-100 hover:shadow-md transition-all duration-200">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center">
+                                            <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-0.5 rounded mr-2">18</span>
+                                            <p class="font-semibold text-sm text-gray-800">黑龙江省</p>
+                                        </div>
+                                        <span class="text-xs font-medium text-purple-600">0%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                        <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-1.5">0人</p>
+                                </div>
+                                
+                                <div class="bg-white rounded-xl p-3 shadow-sm border border-purple-100 hover:shadow-md transition-all duration-200">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center">
+                                            <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-0.5 rounded mr-2">19</span>
+                                            <p class="font-semibold text-sm text-gray-800">吉林省</p>
+                                        </div>
+                                        <span class="text-xs font-medium text-purple-600">0%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                        <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-1.5">0人</p>
+                                </div>
+                                
+                                <div class="bg-white rounded-xl p-3 shadow-sm border border-purple-100 hover:shadow-md transition-all duration-200">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center">
+                                            <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-0.5 rounded mr-2">20</span>
+                                            <p class="font-semibold text-sm text-gray-800">辽宁省</p>
+                                        </div>
+                                        <span class="text-xs font-medium text-purple-600">0%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                        <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-1.5">0人</p>
                                 </div>
                             </div>
                         </div>
                         
-                        <!-- 各区域状态 -->
-                        <h4 class="font-medium text-dark mb-3">各区域招募状态</h4>
-                        <div class="space-y-3">
-                            ${districtsHtml}
-                        </div>
-                    </div>
-                    <div class="p-5 border-t bg-gray-50 rounded-b-xl">
-                        <button onclick="closeMembershipModal()" class="w-full py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors">
-                            关闭
-                        </button>
-                    </div>
-                </div>
-            `;
-            
-            // 添加到页面
-            document.body.appendChild(modal);
-            document.body.style.overflow = 'hidden'; // 防止背景滚动
-        }
-        
-        // 关闭成员资格模态框
-        function closeMembershipModal() {
-            const modal = document.getElementById('membershipModal');
-            if (modal) {
-                modal.remove();
-                document.body.style.overflow = ''; // 恢复背景滚动
-            }
-        }
-
-        // 区域数据
-        const districtData = {
-            '尖草坪区': { sales: 312, staff: 39 },
-            '迎泽区': { sales: 428, staff: 56 },
-            '万柏林区': { sales: 365, staff: 45 },
-            '杏花岭区': { sales: 386, staff: 48 },
-            '小店区': { sales: 492, staff: 62 },
-            '晋源区': { sales: 278, staff: 31 },
-            '清徐县': { sales: 245, staff: 28 },
-            '阳曲县': { sales: 198, staff: 22 },
-            '娄烦县': { sales: 165, staff: 18 },
-            '古交市': { sales: 185, staff: 21 }
-        };
-        
-        // 尖草坪区人员数据
-        const jiancaopingStaff = {
-            leaders: [
-                { position: '山西太原尖草坪区会长', name: '李秀珍', age: 46, phone: '19003434431', address: '山西省太原市小店区在饭店' },
-                { position: '太原市副会长', name: '刘瑞华', age: 52, phone: '18734838631', address: '太原市尖草坪区，杏花岭区柏杨树街' },
-                { position: '山西太原尖草坪区副会长', name: '魏国炳', age: 31, phone: '15536455536', address: '山西省太原市尖草坪区优山美郡' }
-            ],
-            groups: [
-                { groupName: '统计组', members: [
-                    { position: '山西太原尖草坪区统计组长', name: '待确认', age: 31, phone: '15513828862', address: '山西省太原市尖草坪区' },
-                    { position: '山西太原尖草坪区统计', name: '王维卿', age: 51, phone: '19243442346', address: '山西省太原市尖草坪区' }
-                ]},
-                { groupName: '财务组', members: [
-                    { position: '山西太原尖草坪区财务组', name: '王诚义', age: 54, phone: '13513605114', address: '山西省太原市尖草坪区' }
-                ]},
-                { groupName: '初审组', members: [
-                    { position: '山西省太原市草坪区初审组组长', name: '刘海平', age: 43, phone: '18603598321', address: '山西省太原市万柏林区长风停车场' }
-                ]},
-                { groupName: '安保组', members: [
-                    { position: '山西太原尖草坪区安保组长', name: '王旭平', age: 43, phone: '18734862778', address: '山西省太原市尖草坪区' }
-                ]}
-            ]
-        };
-        
-        // 负责人详细信息
-        const personDetails = {
-            '山西省会长': {
-                name: '确认',
-                age: 45,
-                phone: '138****1234',
-                address: '太原市迎泽区',
-                email: 'zhangsan@example.com',
-                department: '山西省总会',
-                position: '会长',
-                joinDate: '2015-03-15',
-                achievements: ['2023年度销售冠军', '优秀团队领导者', '创新营销方案奖']
-            },
-            '山西省副会长': {
-                name: '确认',
-                age: 42,
-                phone: '139****5678',
-                address: '太原市杏花岭区',
-                email: 'lisi@example.com',
-                department: '山西省总会',
-                position: '副会长',
-                joinDate: '2016-07-22',
-                achievements: ['最佳团队协作奖', '客户满意度之星']
-            },
-            '太原市会长': {
-                name: '王',
-                age: 38,
-                phone: '137****9012',
-                address: '太原市小店区',
-                email: 'wangwu@example.com',
-                department: '太原市分会',
-                position: '会长',
-                joinDate: '2018-01-10',
-                achievements: ['太原市销售增长贡献奖', '优秀管理者']
-            },
-            '太原市副会长': {
-                name: '赵',
-                age: 36,
-                phone: '136****3456',
-                address: '太原市万柏林区',
-                email: 'zhaoliu@example.com',
-                department: '太原市分会',
-                position: '副会长',
-                joinDate: '2019-05-08',
-                achievements: ['新人培养计划发起人', '客户关系维护标兵']
-            }
-        };
-
-        // 选择区域
-        function selectDistrict(element) {
-            // 移除所有区域的选中状态
-            document.querySelectorAll('.district-button').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-            // 添加当前区域的选中状态
-            element.classList.add('active');
-            
-            // 获取选中的区域名称
-            const districtName = element.getAttribute('data-district');
-            
-            // 检查是否是尖草坪区
-            if (districtName === '尖草坪区') {
-                // 显示尖草坪区详细人员信息
-                showJiancaopingDetail();
-            } else {
-                // 显示未开发提示
-                showNotDevelopedAlert(districtName);
-            }
-        }
-
-        // 显示尖草坪区详细人员信息
-        function showJiancaopingDetail() {
-            // 创建模态框
-            const modal = document.createElement('div');
-            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
-            modal.id = 'districtDetailModal';
-            
-            // 构建领导信息HTML
-            let leadersHtml = jiancaopingStaff.leaders.map(leader => `
-                <div class="bg-white rounded-lg shadow-button p-3 mb-3">
-                    <h4 class="font-medium text-primary mb-1">${leader.position}</h4>
-                    <p class="text-sm">姓名: ${leader.name}</p>
-                    <p class="text-sm">年龄: ${leader.age}</p>
-                    <p class="text-sm">电话: ${leader.phone}</p>
-                    <div class="mt-2 flex space-x-2">
-                        <button class="bg-green-500 text-white text-xs px-2 py-1 rounded flex items-center" onclick="copyPhoneNumber('${leader.phone}')">
-                            <i class="fa fa-copy mr-1"></i> 复制
-                        </button>
-                        <button class="bg-green-500 text-white text-xs px-2 py-1 rounded flex items-center" onclick="callPhoneNumber('${leader.phone}')">
-                            <i class="fa fa-phone mr-1"></i> 拨打
-                        </button>
-                    </div>
-                    <p class="text-sm">住址: ${leader.address}</p>
-                </div>
-            `).join('');
-            
-            // 构建各组人员HTML
-            let groupsHtml = jiancaopingStaff.groups.map(group => `
-                <div class="mt-4">
-                    <h4 class="font-medium text-dark mb-2">${group.groupName}</h4>
-                    ${group.members.map(member => `
-                        <div class="bg-white rounded-lg shadow-button p-3 mb-2">
-                            <p class="text-sm font-medium">${member.position}: ${member.name}</p>
-                            <p class="text-xs text-gray-500">年龄: ${member.age} | 电话: ${member.phone}</p>
-                            <div class="mt-2 flex space-x-2">
-                                <button class="bg-green-500 text-white text-xs px-2 py-1 rounded flex items-center" onclick="copyPhoneNumber('${member.phone}')">
-                                    <i class="fa fa-copy mr-1"></i> 复制
-                                </button>
-                                <button class="bg-green-500 text-white text-xs px-2 py-1 rounded flex items-center" onclick="callPhoneNumber('${member.phone}')">
-                                    <i class="fa fa-phone mr-1"></i> 拨打
-                                </button>
+                        <!-- 所有省份区域 - 直接显示 -->
+                        <div class="mt-6">
+                            <div class="grid grid-cols-2 gap-3">
+                                <!-- 剩余省份 -->
+                                <div class="space-y-4">
+                                    <div class="bg-white rounded-xl p-3 shadow-sm border border-purple-100 hover:shadow-md transition-all duration-200">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <div class="flex items-center">
+                                                <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-0.5 rounded mr-2">21</span>
+                                                <p class="font-semibold text-sm text-gray-800">内蒙古</p>
+                                            </div>
+                                            <span class="text-xs font-medium text-purple-600">0%</span>
+                                        </div>
+                                        <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                            <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                        </div>
+                                        <p class="text-xs text-gray-500 mt-1.5">0人</p>
+                                    </div>
+                                    
+                                    <div class="bg-white rounded-xl p-3 shadow-sm border border-purple-100 hover:shadow-md transition-all duration-200">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <div class="flex items-center">
+                                                <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-0.5 rounded mr-2">22</span>
+                                                <p class="font-semibold text-sm text-gray-800">广西</p>
+                                            </div>
+                                            <span class="text-xs font-medium text-purple-600">0%</span>
+                                        </div>
+                                        <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                            <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                        </div>
+                                        <p class="text-xs text-gray-500 mt-1.5">0人</p>
+                                    </div>
+                                    
+                                    <div class="bg-white rounded-xl p-3 shadow-sm border border-purple-100 hover:shadow-md transition-all duration-200">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <div class="flex items-center">
+                                                <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-0.5 rounded mr-2">23</span>
+                                                <p class="font-semibold text-sm text-gray-800">贵州省</p>
+                                            </div>
+                                            <span class="text-xs font-medium text-purple-600">0%</span>
+                                        </div>
+                                        <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                            <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                        </div>
+                                        <p class="text-xs text-gray-500 mt-1.5">0人</p>
+                                    </div>
+                                    
+                                    <div class="bg-white rounded-xl p-3 shadow-sm border border-purple-100 hover:shadow-md transition-all duration-200">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <div class="flex items-center">
+                                                <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-0.5 rounded mr-2">24</span>
+                                                <p class="font-semibold text-sm text-gray-800">重庆市</p>
+                                            </div>
+                                            <span class="text-xs font-medium text-purple-600">0%</span>
+                                        </div>
+                                        <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                            <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                        </div>
+                                        <p class="text-xs text-gray-500 mt-1.5">0人</p>
+                                    </div>
+                                    
+                                    <div class="bg-white rounded-xl p-3 shadow-sm border border-purple-100 hover:shadow-md transition-all duration-200">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <div class="flex items-center">
+                                                <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-0.5 rounded mr-2">25</span>
+                                                <p class="font-semibold text-sm text-gray-800">天津市</p>
+                                            </div>
+                                            <span class="text-xs font-medium text-purple-600">0%</span>
+                                        </div>
+                                        <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                            <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                        </div>
+                                        <p class="text-xs text-gray-500 mt-1.5">0人</p>
+                                    </div>
+                                    
+                                    <div class="bg-white rounded-xl p-3 shadow-sm border border-purple-100 hover:shadow-md transition-all duration-200">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <div class="flex items-center">
+                                                <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-0.5 rounded mr-2">26</span>
+                                                <p class="font-semibold text-sm text-gray-800">宁夏</p>
+                                            </div>
+                                            <span class="text-xs font-medium text-purple-600">0%</span>
+                                        </div>
+                                        <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                            <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                        </div>
+                                        <p class="text-xs text-gray-500 mt-1.5">0人</p>
+                                    </div>
+                                    
+                                    <div class="bg-white rounded-xl p-3 shadow-sm border border-purple-100 hover:shadow-md transition-all duration-200">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <div class="flex items-center">
+                                                <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-0.5 rounded mr-2">27</span>
+                                                <p class="font-semibold text-sm text-gray-800">新疆</p>
+                                            </div>
+                                            <span class="text-xs font-medium text-purple-600">0%</span>
+                                        </div>
+                                        <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                            <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                        </div>
+                                        <p class="text-xs text-gray-500 mt-1.5">0人</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="space-y-4">
+                                    <div class="bg-white rounded-xl p-3 shadow-sm border border-purple-100 hover:shadow-md transition-all duration-200">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <div class="flex items-center">
+                                                <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-0.5 rounded mr-2">28</span>
+                                                <p class="font-semibold text-sm text-gray-800">青海省</p>
+                                            </div>
+                                            <span class="text-xs font-medium text-purple-600">0%</span>
+                                        </div>
+                                        <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                            <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                        </div>
+                                        <p class="text-xs text-gray-500 mt-1.5">0人</p>
+                                    </div>
+                                    
+                                    <div class="bg-white rounded-xl p-3 shadow-sm border border-purple-100 hover:shadow-md transition-all duration-200">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <div class="flex items-center">
+                                                <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-0.5 rounded mr-2">29</span>
+                                                <p class="font-semibold text-sm text-gray-800">甘肃省</p>
+                                            </div>
+                                            <span class="text-xs font-medium text-purple-600">0%</span>
+                                        </div>
+                                        <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                            <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                        </div>
+                                        <p class="text-xs text-gray-500 mt-1.5">0人</p>
+                                    </div>
+                                    
+                                    <div class="bg-white rounded-xl p-3 shadow-sm border border-purple-100 hover:shadow-md transition-all duration-200">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <div class="flex items-center">
+                                                <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-0.5 rounded mr-2">30</span>
+                                                <p class="font-semibold text-sm text-gray-800">西藏</p>
+                                            </div>
+                                            <span class="text-xs font-medium text-purple-600">0%</span>
+                                        </div>
+                                        <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                            <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                        </div>
+                                        <p class="text-xs text-gray-500 mt-1.5">0人</p>
+                                    </div>
+                                    
+                                    <div class="bg-white rounded-xl p-3 shadow-sm border border-purple-100 hover:shadow-md transition-all duration-200">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <div class="flex items-center">
+                                                <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-0.5 rounded mr-2">31</span>
+                                                <p class="font-semibold text-sm text-gray-800">海南省</p>
+                                            </div>
+                                            <span class="text-xs font-medium text-purple-600">0%</span>
+                                        </div>
+                                        <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                            <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                        </div>
+                                        <p class="text-xs text-gray-500 mt-1.5">0人</p>
+                                    </div>
+                                    
+                                    <div class="bg-white rounded-xl p-3 shadow-sm border border-purple-100 hover:shadow-md transition-all duration-200">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <div class="flex items-center">
+                                                <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-0.5 rounded mr-2">32</span>
+                                                <p class="font-semibold text-sm text-gray-800">香港</p>
+                                            </div>
+                                            <span class="text-xs font-medium text-purple-600">0%</span>
+                                        </div>
+                                        <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                            <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                        </div>
+                                        <p class="text-xs text-gray-500 mt-1.5">0人</p>
+                                    </div>
+                                    
+                                    <div class="bg-white rounded-xl p-3 shadow-sm border border-purple-100 hover:shadow-md transition-all duration-200">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <div class="flex items-center">
+                                                <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-0.5 rounded mr-2">33</span>
+                                                <p class="font-semibold text-sm text-gray-800">澳门</p>
+                                            </div>
+                                            <span class="text-xs font-medium text-purple-600">0%</span>
+                                        </div>
+                                        <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                            <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                        </div>
+                                        <p class="text-xs text-gray-500 mt-1.5">0人</p>
+                                    </div>
+                                    
+                                    <div class="bg-white rounded-xl p-3 shadow-sm border border-purple-100 hover:shadow-md transition-all duration-200">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <div class="flex items-center">
+                                                <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-0.5 rounded mr-2">34</span>
+                                                <p class="font-semibold text-sm text-gray-800">台湾</p>
+                                            </div>
+                                            <span class="text-xs font-medium text-purple-600">0%</span>
+                                        </div>
+                                        <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                            <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                                        </div>
+                                        <p class="text-xs text-gray-500 mt-1.5">0人</p>
+                                    </div>
+                                </div>
                             </div>
-                            <p class="text-xs text-gray-500">住址: ${member.address}</p>
-                        </div>
-                    `).join('')}
-                </div>
-            `).join('');
-            
-            // 模态框内容
-            modal.innerHTML = `
-                <div class="bg-white rounded-xl shadow-lg w-11/12 max-w-md max-h-[90vh] overflow-y-auto relative">
-                    <!-- 右上角关闭按钮 -->
-                    <button onclick="closeDistrictDetailModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200 hover:text-gray-700 z-10">
-                        <i class="fa fa-times"></i>
-                    </button>
                     
-                    <div class="p-5 border-b">
-                        <div class="flex justify-between items-center">
-                            <h3 class="text-lg font-semibold text-dark">太原市尖草坪区人员信息</h3>
+                    <!-- 红色方框公告栏 -->
+                    <div class="mt-6 mb-4 bg-red-500 rounded-lg p-4 text-white shadow-lg">
+                        <div class="flex items-center">
+                            <div class="bg-white/20 rounded-full p-2 mr-3">
+                                <i class="fa fa-bullhorn text-lg"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-bold text-sm mb-1">重要通知</h3>
+                                <p class="text-xs text-white/90">派币兑换服务即将111。</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="p-5">
-                        <h4 class="font-medium text-dark mb-3">区域领导</h4>
-                        ${leadersHtml}
-                        
-                        <h4 class="font-medium text-dark mb-3">太原市尖草坪区统计组人员</h4>
-                        ${groupsHtml}
-                    </div>
-                    <div class="p-5 border-t bg-gray-50 rounded-b-xl">
-                        <button onclick="closeDistrictDetailModal()" class="w-full py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors">
-                            关闭
-                        </button>
-                    </div>
                 </div>
-            `;
-            
-            // 添加到页面
-            document.body.appendChild(modal);
-            document.body.style.overflow = 'hidden'; // 防止背景滚动
-        }
-        
-        // 显示未开发提示
-        function showNotDevelopedAlert(districtName) {
-            // 创建提示框
-            const alert = document.createElement('div');
-            alert.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
-            alert.id = 'notDevelopedAlert';
-            
-            // 提示框内容
-            alert.innerHTML = `
-                <div class="bg-white rounded-xl shadow-lg w-10/12 max-w-sm p-5">
+            `,
+            wealth: `
+                <div class="p-4">
                     <div class="text-center mb-4">
-                        <i class="fa fa-info-circle text-primary text-4xl mb-3"></i>
-                        <h3 class="text-lg font-semibold text-dark">功能开发中</h3>
+                        <h1 class="text-2xl font-bold mb-2" style="font-family: 'Kaiti', 'STKaiti', 'KaiTi', sans-serif;">生态排行榜</h1>
+                        <p class="text-sm text-gray-600">派币官方认证生态应用排名</p>
                     </div>
-                    <p class="text-gray-600 text-center mb-5">
-                        本软件专门为尖草坪区服务，其他社区暂未开发。
-                    </p>
-                    <button onclick="closeNotDevelopedAlert()" class="w-full py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors">
-                        我知道了
-                    </button>
+                    
+                    <!-- 排行榜表格 -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse">
+                            <thead>
+                                <tr class="bg-blue-100">
+                                    <th class="border border-gray-300 w-12 px-1 py-1 text-center text-xs">排名</th>
+                                    <th class="border border-gray-300 w-24 px-1 py-1 text-left text-xs">生态名称</th>
+                                    <th class="border border-gray-300 w-20 px-1 py-1 text-center text-xs">状态</th>
+                                    <th class="border border-gray-300 px-1 py-1 text-center text-xs">内容</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white">
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">1</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-xs truncate">Pi Network</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs text-green-600">已上线</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">主网</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">2</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-xs truncate">Pi Browser</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs text-green-600">已上线</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">浏览器</td>
+                                </tr>
+                                <tr class="bg-white">
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">3</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-xs truncate">Pi Wallet</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs text-green-600">已上线</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">钱包</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">4</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-xs truncate">审核中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs text-green-600">已上线</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">商城</td>
+                                </tr>
+                                <tr class="bg-white">
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">5</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-xs truncate">审核中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs text-green-600">已上线</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">聊天</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">6</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-xs truncate">审核中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs text-yellow-600">测试中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">社交</td>
+                                </tr>
+                                <tr class="bg-white">
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">7</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-xs truncate">审核中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs text-yellow-600">测试中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">游戏</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">8</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-xs truncate">审核中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs text-yellow-600">测试中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">商务</td>
+                                </tr>
+                                <tr class="bg-white">
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">9</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-xs truncate">审核中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs text-blue-600">开发中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">金融</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">10</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-xs truncate">审核中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs text-blue-600">开发中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">教育</td>
+                                </tr>
+                                <tr class="bg-white">
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">11</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-xs truncate">审核中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs text-blue-600">开发中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">旅游</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">12</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-xs truncate">审核中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs text-blue-600">开发中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">健康</td>
+                                </tr>
+                                <tr class="bg-white">
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">13</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-xs truncate">审核中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs text-blue-600">开发中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">房产</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">14</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-xs truncate">审核中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs text-blue-600">开发中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">音乐</td>
+                                </tr>
+                                <tr class="bg-white">
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">15</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-xs truncate">审核中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs text-blue-600">开发中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">新闻</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">16</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-xs truncate">审核中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs text-blue-600">开发中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">招聘</td>
+                                </tr>
+                                <tr class="bg-white">
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">17</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-xs truncate">审核中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs text-blue-600">开发中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">保险</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">18</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-xs truncate">审核中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs text-blue-600">开发中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">物流</td>
+                                </tr>
+                                <tr class="bg-white">
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">19</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-xs truncate">审核中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs text-blue-600">开发中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">能源</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">20</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-xs truncate">审核中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs text-blue-600">开发中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">慈善</td>
+                                </tr>
+                                <tr class="bg-white">
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">21</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-xs truncate">审核中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs text-blue-600">开发中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">体育</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">22</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-xs truncate">审核中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs text-blue-600">开发中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">艺术</td>
+                                </tr>
+                                <tr class="bg-white">
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">23</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-xs truncate">审核中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs text-blue-600">开发中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">媒体</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">24</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-xs truncate">审核中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs text-blue-600">开发中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">农业</td>
+                                </tr>
+                                <tr class="bg-white">
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">25</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-xs truncate">审核中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs text-blue-600">开发中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">制造</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">26</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-xs truncate">审核中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs text-blue-600">开发中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">科技</td>
+                                </tr>
+                                <tr class="bg-white">
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">27</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-xs truncate">审核中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs text-blue-600">开发中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">时尚</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">28</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-xs truncate">审核中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs text-blue-600">开发中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">娱乐</td>
+                                </tr>
+                                <tr class="bg-white">
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">29</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-xs truncate">审核中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs text-blue-600">开发中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">安全</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">30</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-xs truncate">审核中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs text-blue-600">开发中</td>
+                                    <td class="border border-gray-300 px-1 py-1 text-center text-xs">环保</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- 加载更多按钮 -->
+                    <div class="text-center mt-4">
+                        <button class="bg-blue-500 text-white px-4 py-2 rounded text-sm">加载更多</button>
+                    </div>
                 </div>
-            `;
-            
-            // 添加到页面
-            document.body.appendChild(alert);
-            document.body.style.overflow = 'hidden'; // 防止背景滚动
-        }
-        
-        // 关闭区域详情模态框
-        function closeDistrictDetailModal() {
-            const modal = document.getElementById('districtDetailModal');
-            if (modal) {
-                modal.remove();
-                document.body.style.overflow = ''; // 恢复背景滚动
-                
-                // 移除所有区域的选中状态
-                document.querySelectorAll('.district-button').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-            }
-        }
-        
-        // 关闭未开发提示框
-        function closeNotDevelopedAlert() {
-            const alert = document.getElementById('notDevelopedAlert');
-            if (alert) {
-                alert.remove();
-                document.body.style.overflow = ''; // 恢复背景滚动
-                
-                // 移除所有区域的选中状态
-                document.querySelectorAll('.district-button').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-            }
-        }
-
-        // 隐藏区域详情
-        function hideDistrictDetails() {
-            document.getElementById('districtDetails').classList.add('hidden');
-            
-            // 移除所有区域的选中状态
-            document.querySelectorAll('.district-button').forEach(btn => {
-                btn.classList.remove('active');
-            });
-        }
-        
-        // 显示负责人详细信息
-        function showPersonDetail(position) {
-            const person = personDetails[position];
-            
-            if (person) {
-                // 创建模态框
-                const modal = document.createElement('div');
-                modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
-                modal.id = 'personDetailModal';
-                
-                // 模态框内容
-                modal.innerHTML = `
-                    <div class="bg-white rounded-xl shadow-lg w-11/12 max-w-md max-h-[90vh] overflow-y-auto">
-                        <div class="p-5 border-b">
-                            <div class="flex justify-between items-center">
-                                <h3 class="text-lg font-semibold text-dark">${person.name} - ${position}</h3>
-                                <button onclick="closePersonDetailModal()" class="text-gray-400 hover:text-gray-600">
-                                    <i class="fa fa-times"></i>
-                                </button>
+            `,
+            my: `
+                <div class="p-3">
+                    <div class="text-center mb-3">
+                        <h1 class="text-lg font-bold mb-1" style="font-family: 'Kaiti', 'STKaiti', 'KaiTi', sans-serif;">官方渠道</h1>
+                        <p class="text-xs text-gray-600">我们所有渠道均按照国家政策和银行规定合法运营，确保派币归属，请认准官方唯一免费办理渠道。凡是以变现兑换涉及任何费用行为，均属于违法行为！</p>
+                    </div>
+                    
+                    <!-- 白底黑字公告 -->
+                    <div class="bg-white rounded-lg p-2 mb-2 border border-gray-200 shadow-sm">
+                        <h3 class="text-xs font-bold text-black" style="font-family: 'Kaiti', 'STKaiti', 'KaiTi', sans-serif;">请使用派社交生态TELTLK扫码进群</h3>
+                    </div>
+                    
+                    <!-- 群聊渠道 -->
+                    <div class="flex justify-between mb-3">
+                        <div class="w-[48%] flex flex-col items-center">
+                            <div class="w-28 h-28 border-2 border-blue-500 rounded-lg flex items-center justify-center bg-gradient-to-br from-blue-50 to-white">
+                                <h3 class="text-xs font-bold text-black" style="font-family: 'Kaiti', 'STKaiti', 'KaiTi', sans-serif;">群聊 1<span class="font-bold">即将开启</span></h3>
                             </div>
+                            <p class="text-sm text-black mt-1">官方公告群（禁言）</p>
                         </div>
-                        <div class="p-5">
-                            <div class="flex justify-center mb-4">
-                                <div class="w-24 h-24 rounded-full bg-blue-100 flex items-center justify-center overflow-hidden">
-                                    <i class="fa fa-user-circle text-primary text-5xl"></i>
-                                </div>
+                        <div class="w-[48%] flex flex-col items-center">
+                            <div class="w-28 h-28 border-2 border-blue-500 rounded-lg flex items-center justify-center bg-gradient-to-br from-blue-50 to-white">
+                                <h3 class="text-xs font-bold text-black" style="font-family: 'Kaiti', 'STKaiti', 'KaiTi', sans-serif;">群聊 2<span class="font-bold">即将开启</span></h3>
                             </div>
-                            <div class="space-y-3">
-                                <div class="flex justify-between">
-                                    <span class="text-gray-500">姓名:</span>
-                                    <span class="font-medium">${person.name}</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-500">年龄:</span>
-                                    <span>${person.age}岁</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-500">电话:</span>
-                                    <span>${person.phone}</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-500">邮箱:</span>
-                                    <span>${person.email}</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-500">住址:</span>
-                                    <span>${person.address}</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-500">部门:</span>
-                                    <span>${person.department}</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-500">入职日期:</span>
-                                    <span>${person.joinDate}</span>
-                                </div>
-                                <div>
-                                    <span class="text-gray-500 block mb-1">主要成就:</span>
-                                    <ul class="list-disc list-inside text-sm">
-                                        ${person.achievements.map(achievement => `<li>${achievement}</li>`).join('')}
-                                    </ul>
-                                </div>
-                            </div>
+                            <p class="text-sm text-black mt-1">官方交流总群1</p>
                         </div>
-                        <div class="p-5 border-t bg-gray-50 rounded-b-xl">
-                            <button onclick="closePersonDetailModal()" class="w-full py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors">
-                                关闭
+                    </div>
+                    
+                    <!-- 咨询邮箱 -->
+                    <div class="border-2 border-gray-300 rounded-lg p-2 bg-gradient-to-br from-gray-50 to-white">
+                        <div>
+                            <h3 class="text-xs font-bold mb-1 text-gray-800">咨询-官方专属邮箱</h3>
+                            <p class="text-base text-black font-bold" style="font-family: 'Kaiti', 'STKaiti', 'KaiTi', sans-serif;">开启即将</p>
+                            <p class="text-sm text-black mt-1">工作时间：周一至周五 9:00-18:00</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 底部间距 -->
+                    <div class="h-2"></div>
+                </div>
+            `,
+            invite: `
+                <div class="p-4 flex flex-col items-center justify-center min-h-full">
+                    <div class="w-full max-w-md bg-white rounded-xl shadow-xl overflow-hidden">
+                        <!-- 返回按钮 -->
+                        <div class="p-4 border-b border-gray-200">
+                            <button id="backToChannel" class="flex items-center text-gray-600 hover:text-gray-900">
+                                <i class="fa fa-arrow-left mr-2"></i>
+                                <span class="font-medium">返回渠道</span>
+                            </button>
+                        </div>
+                        
+                        <!-- 主要内容 -->
+                        <div class="p-6 flex flex-col items-center">
+                            <h1 class="text-2xl font-bold mb-6 text-center text-gray-800" style="font-family: 'Kaiti', 'STKaiti', 'KaiTi', sans-serif;">邀请好友</h1>
+                            
+                            <!-- 图片展示 -->
+                            <div class="w-48 h-48 mb-6 overflow-hidden rounded-lg shadow-lg">
+                                <img src="https://p26-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/7dd4e76461b544e9b8687d0bb42a64e3~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=20260522010706BE4498A538C262158AE1&rrcfp=f06b921b&x-expires=1781975246&x-signature=ZgJhYhvFFFOTrElu4Hgmj%2F6XeXo%3D" alt="邀请好友图片" class="w-full h-full object-cover">
+                            </div>
+                            
+                            <!-- 文字介绍 -->
+                            <div class="text-center mb-6">
+                                <p class="text-gray-700 mb-4">邀请好友加入我们的平台，一起享受派币带来的价值！</p>
+                                <p class="text-gray-600 text-sm">邀请成功后，你和好友都能获得额外算力奖励，保存后刷新页面点按钮就能看到奖励到账。</p>
+                            </div>
+                            
+                            <!-- 邀请码 -->
+                            <div class="w-full max-w-xs mb-6">
+                                <div class="bg-gray-100 rounded-lg p-3 flex items-center justify-between">
+                                    <span class="text-gray-800 font-mono">INVITE123456</span>
+                                    <button class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600 transition-colors">复制</button>
+                                </div>
+                            </div>
+                            
+                            <!-- 分享按钮 -->
+                            <button class="bg-gradient-to-r from-green-500 to-purple-600 text-white px-6 py-3 rounded-lg font-bold hover:from-green-600 hover:to-purple-700 transition-all duration-300 shadow-lg">
+                                立即分享邀请
                             </button>
                         </div>
                     </div>
-                `;
-                
-                // 添加到页面
-                document.body.appendChild(modal);
-                document.body.style.overflow = 'hidden'; // 防止背景滚动
-            }
-        }
+                </div>
+            `
+        };
         
-        // 关闭负责人详细信息模态框
-        function closePersonDetailModal() {
-            const modal = document.getElementById('personDetailModal');
-            if (modal) {
-                modal.remove();
-                document.body.style.overflow = ''; // 恢复背景滚动
-            }
-        }
-
-        // 复制电话号码
-        function copyPhoneNumber(phone) {
-            playClickSound(); // 播放音效
-            // 移除可能的占位符，如 ****
-            const cleanPhone = phone.replace(/\*/g, '');
-            if (cleanPhone === '未发布') {
-                alert('电话号码未发布，无法复制。');
-                return;
-            }
-            // 复制两次手机号码
-            const textToCopy = cleanPhone + '\n' + cleanPhone;
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                alert('电话号码已复制到剪贴板。');
-            }).catch(err => {
-                console.error('无法复制电话号码: ', err);
-                alert('复制失败，请手动复制。');
+        // 当前活动页面
+        let currentPage = 'home';
+        
+        // 获取DOM元素
+        const contentElement = document.getElementById('content');
+        const navItems = document.querySelectorAll('.nav-item');
+        
+        // 初始化页面
+        function initApp() {
+            // 加载初始页面
+            loadPage(currentPage);
+            
+            // 添加导航点击事件
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const targetPage = this.getAttribute('data-target');
+                    if (targetPage !== currentPage) {
+                        currentPage = targetPage;
+                        loadPage(currentPage);
+                        updateNavActiveState();
+                    }
+                });
             });
         }
-
-        // 拨打电话号码
-        function callPhoneNumber(phone) {
-            playClickSound(); // 播放音效
-            // 移除可能的占位符，如 ****
-            const cleanPhone = phone.replace(/\*/g, '');
-            if (cleanPhone === '未发布') {
-                alert('电话号码未发布，无法拨打。');
-                return;
+        
+        // 加载页面内容
+        function loadPage(page) {
+            if (pageTemplates[page]) {
+                contentElement.innerHTML = pageTemplates[page];
+                
+                // 根据页面设置不同的背景颜色
+                switch(page) {
+                    case 'home':
+                    case 'credit-card':
+                        document.body.style.background = 'linear-gradient(to bottom, #e9d5ff, #c084fc)';
+                        break;
+                    case 'wealth':
+                    case 'my':
+                        document.body.style.background = 'linear-gradient(to bottom, #bfdbfe, #3b82f6)';
+                        break;
+                }
+            } else {
+                contentElement.innerHTML = `
+                    <div class="p-4">
+                        <h1 class="text-xl font-bold mb-4">页面不存在</h1>
+                        <p class="text-boc-text-secondary">请检查页面名称是否正确。</p>
+                    </div>
+                `;
             }
-            // 直接跳转到拨号界面
-            window.location.href = `tel:${cleanPhone}`;
-        }
-
-        // 显示使命数据模态框
-        function showMissionModal() {
-            // 创建模态框
-            const modal = document.createElement('div');
-            modal.className = 'fixed inset-0 bg-black flex items-center justify-center z-50';
-            modal.id = 'missionModal';
-            
-            // 模态框内容
-            modal.innerHTML = `
-                <div class="bg-black bg-opacity-90 rounded-xl shadow-lg w-11/12 max-w-md max-h-[90vh] overflow-y-auto relative border border-gray-800">
-                    <!-- 右上角关闭按钮 -->
-                    <button onclick="closeMissionModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-gray-700 hover:text-white z-10">
-                        <i class="fa fa-times"></i>
-                    </button>
-                    
-                    <div class="p-5 border-b border-gray-800">
-                        <h3 class="text-lg font-semibold text-white text-center">派商会使命数据进度</h3>
-                    </div>
-                    <div class="p-5">
-                        <div class="space-y-6">
-                            <div class="bg-gray-900 rounded-lg p-4">
-                                <h4 class="font-medium text-white mb-3">1. 山西省架构拿到结果</h4>
-                                <div class="w-full bg-gray-800 rounded-full h-2.5">
-                                    <div class="bg-blue-500 h-2.5 rounded-full" style="width: 0%"></div>
-                                </div>
-                                <div class="flex justify-between mt-2">
-                                    <span class="text-xs text-gray-400">进度</span>
-                                    <span class="text-xs text-blue-400">0%</span>
-                                </div>
-                            </div>
-                            <div class="bg-gray-900 rounded-lg p-4">
-                                <h4 class="font-medium text-white mb-3">2. 山西省太原市架构拿到结果进度表</h4>
-                                <div class="w-full bg-gray-800 rounded-full h-2.5">
-                                    <div class="bg-green-500 h-2.5 rounded-full" style="width: 0%"></div>
-                                </div>
-                                <div class="flex justify-between mt-2">
-                                    <span class="text-xs text-gray-400">进度</span>
-                                    <span class="text-xs text-green-400">0%</span>
-                                </div>
-                            </div>
-                            <div class="bg-gray-900 rounded-lg p-4">
-                                <h4 class="font-medium text-white mb-3">3. 太原市所有区域架构拿到结果进度</h4>
-                                <div class="w-full bg-gray-800 rounded-full h-2.5">
-                                    <div class="bg-yellow-500 h-2.5 rounded-full" style="width: 0%"></div>
-                                </div>
-                                <div class="flex justify-between mt-2">
-                                    <span class="text-xs text-gray-400">进度</span>
-                                    <span class="text-xs text-yellow-400">0%</span>
-                                </div>
-                            </div>
-                            <div class="bg-gray-900 rounded-lg p-4">
-                                <h4 class="font-medium text-white mb-3">4. 登记人员拿到结果进度</h4>
-                                <div class="w-full bg-gray-800 rounded-full h-2.5">
-                                    <div class="bg-red-500 h-2.5 rounded-full" style="width: 0%"></div>
-                                </div>
-                                <div class="flex justify-between mt-2">
-                                    <span class="text-xs text-gray-400">进度</span>
-                                    <span class="text-xs text-red-400">0%</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mt-6 text-center text-gray-400 text-sm">
-                            <p>开始时间：2026年3月14号</p>
-                            <p>开始登记</p>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            // 添加到页面
-            document.body.appendChild(modal);
-            document.body.style.overflow = 'hidden'; // 防止背景滚动
         }
         
-        // 关闭使命数据模态框
-        function closeMissionModal() {
-            const modal = document.getElementById('missionModal');
-            if (modal) {
-                modal.remove();
-                document.body.style.overflow = ''; // 恢复背景滚动
-            }
+        // 更新导航栏活动状态
+        function updateNavActiveState() {
+            navItems.forEach(item => {
+                const targetPage = item.getAttribute('data-target');
+                if (targetPage === currentPage) {
+                    item.classList.remove('nav-item-inactive');
+                    item.classList.add('nav-item-active');
+                } else {
+                    item.classList.remove('nav-item-active');
+                    item.classList.add('nav-item-inactive');
+                }
+            });
         }
+        
+        // 页面加载完成后初始化应用
+        document.addEventListener('DOMContentLoaded', function() {
+            initApp();
+            
+
+            
+            // 添加返回按钮事件监听
+            document.addEventListener('click', function(e) {
+                if (e.target && e.target.id === 'backToChannel') {
+                    currentPage = 'my';
+                    loadPage(currentPage);
+                }
+            });
+        });
     </script>
 
-</body></html>
+</body>
+</html>
