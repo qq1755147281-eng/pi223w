@@ -260,6 +260,24 @@
                 }
             }
             
+            /* 扫描线动画 */
+            @keyframes scan {
+                0% {
+                    transform: translateY(-100%);
+                }
+                100% {
+                    transform: translateY(100%);
+                }
+            }
+            .animate-scan {
+                animation: scan 3s linear infinite;
+            }
+            
+            /* 文字阴影效果 */
+            .text-shadow-cyan {
+                text-shadow: 0 0 5px rgba(6, 182, 212, 0.7), 0 0 10px rgba(6, 182, 212, 0.5);
+            }
+            
             /* 柔和缩放动画 */
             @keyframes gentle-zoom {
                 0%, 100% {
@@ -386,8 +404,73 @@
                         </div>
                     </div>
                     
+                    <!-- 科幻倒计时模块 -->
+                    <div class="mt-4 mb-3">
+                        <div class="relative overflow-hidden max-w-md mx-auto">
+                            <!-- 动态背景光效 -->
+                            <div class="absolute -inset-1 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-600 rounded-lg blur opacity-70 animate-pulse"></div>
+                            
+                            <!-- 主容器 -->
+                            <div class="relative bg-black/95 backdrop-blur-lg rounded-lg p-3 border border-cyan-500/30 shadow-2xl overflow-hidden">
+                                <!-- 网格背景 -->
+                                <div class="absolute inset-0 opacity-10">
+                                    <div class="h-full w-full bg-[linear-gradient(to_right,#4f46e5_1px,transparent_1px),linear-gradient(to_bottom,#4f46e5_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+                                </div>
+                                
+                                <!-- 标题 -->
+                                <div class="text-center mb-3 relative z-10">
+                                    <h2 class="text-base font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500 animate-pulse" style="font-family: 'Kaiti', 'STKaiti', 'KaiTi', sans-serif;">派币兑换倒计时</h2>
+                                </div>
+                                
+                                <!-- 数字倒计时 -->
+                                <div class="flex justify-center space-x-3 relative z-10">
+                                    <div id="countdown" class="flex space-x-3">
+                                        <!-- 天数 -->
+                                        <div class="bg-gradient-to-br from-blue-900/90 to-blue-950/90 rounded-lg p-2 text-center min-w-[60px] w-[60px] border border-cyan-500/40 shadow-lg shadow-cyan-500/20 relative overflow-hidden group">
+                                            <!-- 扫描线效果 -->
+                                            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-scan"></div>
+                                            <!-- 数字 -->
+                                            <span id="days" class="text-cyan-400 text-lg font-mono font-bold relative z-10 text-shadow-cyan">00</span>
+                                            <span class="text-cyan-500/80 text-[10px] block mt-0.5">天</span>
+                                        </div>
+                                        
+                                        <!-- 小时 -->
+                                        <div class="bg-gradient-to-br from-blue-900/90 to-blue-950/90 rounded-lg p-2 text-center min-w-[60px] w-[60px] border border-cyan-500/40 shadow-lg shadow-cyan-500/20 relative overflow-hidden group">
+                                            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-scan"></div>
+                                            <span id="hours" class="text-cyan-400 text-lg font-mono font-bold relative z-10 text-shadow-cyan">00</span>
+                                            <span class="text-cyan-500/80 text-[10px] block mt-0.5">时</span>
+                                        </div>
+                                        
+                                        <!-- 分钟 -->
+                                        <div class="bg-gradient-to-br from-blue-900/90 to-blue-950/90 rounded-lg p-2 text-center min-w-[60px] w-[60px] border border-cyan-500/40 shadow-lg shadow-cyan-500/20 relative overflow-hidden group">
+                                            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-scan"></div>
+                                            <span id="minutes" class="text-cyan-400 text-lg font-mono font-bold relative z-10 text-shadow-cyan">00</span>
+                                            <span class="text-cyan-500/80 text-[10px] block mt-0.5">分</span>
+                                        </div>
+                                        
+                                        <!-- 秒钟 -->
+                                        <div class="bg-gradient-to-br from-blue-900/90 to-blue-950/90 rounded-lg p-2 text-center min-w-[60px] w-[60px] border border-cyan-500/40 shadow-lg shadow-cyan-500/20 relative overflow-hidden group">
+                                            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/10 to-transparent opacity-10 animate-scan"></div>
+                                            <span id="seconds" class="text-cyan-400 text-lg font-mono font-bold relative z-10 text-shadow-cyan animate-pulse">00</span>
+                                            <span class="text-cyan-500/80 text-[10px] block mt-0.5">秒</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 目标日期 -->
+                                <div class="text-center mt-2 relative z-10">
+                                    <p class="text-cyan-500/80 text-xs bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-400">2026年6月28日3：14开启</p>
+                                </div>
+                                
+                                <!-- 装饰性元素 -->
+                                <div class="absolute top-2 left-2 w-4 h-4 rounded-full bg-cyan-500/50 animate-ping"></div>
+                                <div class="absolute top-2 right-2 w-4 h-4 rounded-full bg-blue-500/50 animate-ping"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <!-- 公告栏 -->
-                    <div class="mt-1 mb-6">
+                    <div class="mt-4 mb-6">
                         <div class="border border-yellow-500 rounded-lg overflow-hidden shadow-lg bg-white p-1">
                             <!-- 公告栏标题 -->
                             <div class="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white py-2 px-4 flex items-center rounded">
@@ -1323,14 +1406,14 @@
                     <!-- 群聊渠道 -->
                     <div class="flex justify-between mb-3">
                         <div class="w-[48%] flex flex-col items-center">
-                            <div class="w-28 h-28 border-2 border-blue-500 rounded-lg flex items-center justify-center bg-gradient-to-br from-blue-50 to-white">
-                                <h3 class="text-xs font-bold text-black" style="font-family: 'Kaiti', 'STKaiti', 'KaiTi', sans-serif;">群聊 1<span class="font-bold">即将开启</span></h3>
+                            <div class="w-28 h-28 border-2 border-blue-500 rounded-lg overflow-hidden bg-white">
+                                <img src="https://p26-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/7dd4e76461b544e9b8687d0bb42a64e3~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=20260522010706BE4498A538C262158AE1&rrcfp=f06b921b&x-expires=1781975246&x-signature=ZgJhYhvFFFOTrElu4Hgmj%2F6XeXo%3D" alt="官方公告群" class="w-full h-full object-cover">
                             </div>
                             <p class="text-sm text-black mt-1">官方公告群（禁言）</p>
                         </div>
                         <div class="w-[48%] flex flex-col items-center">
-                            <div class="w-28 h-28 border-2 border-blue-500 rounded-lg flex items-center justify-center bg-gradient-to-br from-blue-50 to-white">
-                                <h3 class="text-xs font-bold text-black" style="font-family: 'Kaiti', 'STKaiti', 'KaiTi', sans-serif;">群聊 2<span class="font-bold">即将开启</span></h3>
+                            <div class="w-28 h-28 border-2 border-blue-500 rounded-lg overflow-hidden bg-white">
+                                <img src="https://p26-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/7dd4e76461b544e9b8687d0bb42a64e3~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=20260522010706BE4498A538C262158AE1&rrcfp=f06b921b&x-expires=1781975246&x-signature=ZgJhYhvFFFOTrElu4Hgmj%2F6XeXo%3D" alt="官方交流总群" class="w-full h-full object-cover">
                             </div>
                             <p class="text-sm text-black mt-1">官方交流总群1</p>
                         </div>
@@ -1356,6 +1439,18 @@
                                 <p class="text-xs text-red-700 leading-tight">请派用户警惕任何以派币兑换为由收取费用的行为，官方渠道不会收取任何费用。如有发现可疑情况，请立即通过官方邮箱举报。打击一切虚假宣传，为真正的先锋兑换保驾护航！。</p>
                             </div>
                         </div>
+                    </div>
+                    
+                    <!-- 发光线条 -->
+                    <div class="mt-3 space-y-2">
+                        <!-- 红色发光线 -->
+                        <div class="h-0.5 bg-gradient-to-r from-red-500 via-red-600 to-red-500 shadow-lg shadow-red-500/50 animate-pulse"></div>
+                        
+                        <!-- 绿色发光线 -->
+                        <div class="h-0.5 bg-gradient-to-r from-green-500 via-green-600 to-green-500 shadow-lg shadow-green-500/50 animate-pulse" style="animation-delay: 0.5s;"></div>
+                        
+                        <!-- 黄色发光线 -->
+                        <div class="h-0.5 bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-500 shadow-lg shadow-yellow-500/50 animate-pulse" style="animation-delay: 1s;"></div>
                     </div>
                     
                     <!-- 底部间距 -->
@@ -1471,11 +1566,44 @@
             });
         }
         
+        // 倒计时功能
+        function initCountdown() {
+            // 目标日期：2026年6月28日
+            const targetDate = new Date('2026-06-28T00:00:00').getTime();
+            
+            // 更新倒计时
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const distance = targetDate - now;
+                
+                // 计算天、时、分、秒
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                // 更新DOM
+                document.getElementById('days').innerText = days.toString().padStart(2, '0');
+                document.getElementById('hours').innerText = hours.toString().padStart(2, '0');
+                document.getElementById('minutes').innerText = minutes.toString().padStart(2, '0');
+                document.getElementById('seconds').innerText = seconds.toString().padStart(2, '0');
+            }
+            
+            // 立即更新一次
+            updateCountdown();
+            
+            // 每秒更新一次
+            setInterval(updateCountdown, 1000);
+        }
+        
         // 页面加载完成后初始化应用
         document.addEventListener('DOMContentLoaded', function() {
             initApp();
             
-
+            // 初始化倒计时和时钟
+            if (document.getElementById('countdown')) {
+                initCountdown();
+            }
             
             // 添加返回按钮事件监听
             document.addEventListener('click', function(e) {
